@@ -1,0 +1,16 @@
+# Monorepo root — KaushalSetu (SIH26242)
+#
+# For now only the Flutter app under /app is tracked. Everything else in this
+# working directory (design decks, submission zips, extracted references, and
+# the not-yet-created /server) is intentionally ignored.
+#
+# Layout:
+#   /app     -> Flutter mobile app (local-first)
+#   /server  -> (reserved, not yet added)
+
+# Ignore everything at the root...
+/*
+# ...except the app and this file.
+!/app/
+!/.gitignore
+!/README.md
