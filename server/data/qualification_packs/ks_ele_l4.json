@@ -1,0 +1,510 @@
+{
+ "code": "KS-ELE-L4",
+ "official_code": null,
+ "verified": false,
+ "source_note": "Authored for the KaushalSetu prototype from publicly described trade outlines. NOT an official NCVET/SSC document. Replace with the verified Qualification Pack (use scripts/import_qp_csv.py) before any real certification use.",
+ "title": {
+  "en": "Domestic Electrician",
+  "hi": "घरेलू इलेक्ट्रीशियन",
+  "mr": "घरगुती इलेक्ट्रिशियन"
+ },
+ "sector": "Electrical",
+ "nsqf_level": 4,
+ "description": {
+  "en": "Installs, tests and repairs wiring, switchgear, earthing and appliances in homes and small establishments.",
+  "hi": "घरों और छोटे प्रतिष्ठानों में वायरिंग, स्विचगियर, अर्थिंग और उपकरण लगाना, जांचना और मरम्मत करना।",
+  "mr": "घरे व लहान आस्थापनांमध्ये वायरिंग, स्विचगियर, अर्थिंग व उपकरणे बसवणे, तपासणे व दुरुस्त करणे."
+ },
+ "keywords": {
+  "en": [
+   "electrician",
+   "electrical",
+   "wiring",
+   "wire",
+   "cable",
+   "switch",
+   "switchboard",
+   "mcb",
+   "rccb",
+   "elcb",
+   "earthing",
+   "fuse",
+   "circuit",
+   "conduit",
+   "meter",
+   "multimeter",
+   "megger",
+   "fan",
+   "light",
+   "socket",
+   "inverter",
+   "load",
+   "voltage",
+   "current",
+   "short circuit",
+   "db box",
+   "distribution board",
+   "motor winding"
+  ],
+  "hi": [
+   "इलेक्ट्रीशियन",
+   "बिजली",
+   "तार",
+   "वायरिंग",
+   "स्विच",
+   "बोर्ड",
+   "अर्थिंग",
+   "फ्यूज",
+   "करंट",
+   "मीटर",
+   "पंखा",
+   "लाइट",
+   "सॉकेट",
+   "शॉर्ट सर्किट",
+   "एमसीबी",
+   "इन्वर्टर"
+  ],
+  "mr": [
+   "इलेक्ट्रिशियन",
+   "वीज",
+   "तार",
+   "वायरिंग",
+   "स्विच",
+   "बोर्ड",
+   "अर्थिंग",
+   "फ्यूज",
+   "करंट",
+   "मीटर",
+   "पंखा",
+   "दिवा",
+   "शॉर्ट सर्किट"
+  ],
+  "rom": [
+   "electrician",
+   "bijli",
+   "bijli ka kaam",
+   "taar",
+   "tar",
+   "wiring",
+   "switch board",
+   "board",
+   "mcb",
+   "fuse",
+   "earthing",
+   "meter",
+   "pankha",
+   "light",
+   "short circuit",
+   "inverter",
+   "current"
+  ]
+ },
+ "nos": [
+  {
+   "code": "KS-ELE-N1",
+   "title": {
+    "en": "Electrical safety",
+    "hi": "विद्युत सुरक्षा"
+   },
+   "weight": 0.3,
+   "pass_threshold": 0.6,
+   "criteria": [
+    {
+     "id": "ELE-N1-C1",
+     "critical": true,
+     "weight": 1,
+     "text": {
+      "en": "Isolates and proves the circuit dead before work",
+      "hi": "काम से पहले सर्किट बंद करके सुनिश्चित करना कि करंट नहीं है"
+     },
+     "task": {
+      "en": "Describe step by step how you make a circuit safe before touching any wire.",
+      "hi": "किसी तार को छूने से पहले आप सर्किट को सुरक्षित कैसे करते हैं, चरण-दर-चरण बताइए।"
+     },
+     "indicators": [
+      {
+       "en": "Switches off MCB / main and uses lock-out or warning tag",
+       "kw": [
+        "switch off",
+        "mcb off",
+        "main switch",
+        "isolate",
+        "lockout",
+        "lock out",
+        "loto",
+        "tag",
+        "tripped",
+        "बंद",
+        "मेन स्विच",
+        "एमसीबी बंद",
+        "टैग"
+       ]
+      },
+      {
+       "en": "Verifies zero voltage with tester or multimeter",
+       "kw": [
+        "tester",
+        "multimeter",
+        "voltage tester",
+        "test pen",
+        "check voltage",
+        "no voltage",
+        "dead",
+        "टेस्टर",
+        "मल्टीमीटर",
+        "जांच",
+        "करंट नहीं"
+       ]
+      },
+      {
+       "en": "Informs others / keeps supply from being restored",
+       "kw": [
+        "inform",
+        "tell",
+        "warn",
+        "sign",
+        "board",
+        "tag",
+        "सूचना",
+        "बताता",
+        "चेतावनी"
+       ]
+      }
+     ],
+     "evidence": "photo"
+    },
+    {
+     "id": "ELE-N1-C2",
+     "critical": true,
+     "weight": 1,
+     "text": {
+      "en": "Uses PPE and insulated tools; knows shock response",
+      "hi": "PPE और इंसुलेटेड औज़ार का उपयोग; करंट लगने पर कार्रवाई"
+     },
+     "task": {
+      "en": "What protective equipment and tools do you use, and what do you do if someone gets an electric shock?",
+      "hi": "आप कौन से सुरक्षा उपकरण और औज़ार इस्तेमाल करते हैं और किसी को करंट लगे तो क्या करते हैं?"
+     },
+     "indicators": [
+      {
+       "en": "Insulated tools, rubber gloves, rubber mat or dry footwear",
+       "kw": [
+        "insulated",
+        "rubber gloves",
+        "gloves",
+        "rubber mat",
+        "mat",
+        "footwear",
+        "shoes",
+        "इंसुलेटेड",
+        "दस्ताने",
+        "रबर",
+        "मैट"
+       ]
+      },
+      {
+       "en": "Never works on live wire in wet conditions; uses RCCB/ELCB",
+       "kw": [
+        "wet",
+        "water",
+        "rccb",
+        "elcb",
+        "earth leakage",
+        "live",
+        "गीला",
+        "पानी",
+        "लाइव"
+       ]
+      },
+      {
+       "en": "Shock response: switch off, do not touch victim, insulated push, first aid",
+       "kw": [
+        "first aid",
+        "shock",
+        "do not touch",
+        "wooden",
+        "insulated stick",
+        "hospital",
+        "switch off supply",
+        "cpr",
+        "प्राथमिक",
+        "झटका",
+        "अस्पताल",
+        "लकड़ी"
+       ]
+      }
+     ],
+     "evidence": "none"
+    }
+   ]
+  },
+  {
+   "code": "KS-ELE-N2",
+   "title": {
+    "en": "Wiring and installation",
+    "hi": "वायरिंग और स्थापना"
+   },
+   "weight": 0.4,
+   "pass_threshold": 0.6,
+   "criteria": [
+    {
+     "id": "ELE-N2-C1",
+     "critical": false,
+     "weight": 1,
+     "text": {
+      "en": "Selects cable size and protection for the load",
+      "hi": "लोड के अनुसार तार का साइज़ और सुरक्षा चुनना"
+     },
+     "task": {
+      "en": "How do you choose wire size and MCB for (a) a room with lights and fans, (b) a 1.5 ton air conditioner, (c) a geyser?",
+      "hi": "(क) लाइट-पंखे वाले कमरे, (ख) 1.5 टन एसी, (ग) गीजर के लिए आप तार का साइज़ और एमसीबी कैसे चुनते हैं?"
+     },
+     "indicators": [
+      {
+       "en": "Calculates current from power and voltage",
+       "kw": [
+        "watt",
+        "amp",
+        "ampere",
+        "current",
+        "load",
+        "calculate",
+        "p=vi",
+        "voltage",
+        "230",
+        "वाट",
+        "एम्पीयर",
+        "लोड",
+        "करंट"
+       ]
+      },
+      {
+       "en": "Chooses wire gauge in sq mm: 1.0 / 1.5 / 2.5 / 4",
+       "kw": [
+        "sq mm",
+        "sqmm",
+        "1.5",
+        "2.5",
+        "4 mm",
+        "gauge",
+        "copper",
+        "square mm",
+        "स्क्वायर",
+        "गेज",
+        "तांबा"
+       ]
+      },
+      {
+       "en": "Chooses matching MCB rating (6A, 10A, 16A, 20A, 32A)",
+       "kw": [
+        "6a",
+        "10a",
+        "16a",
+        "20a",
+        "32a",
+        "amp mcb",
+        "mcb",
+        "breaker",
+        "rating",
+        "एमसीबी",
+        "ब्रेकर"
+       ]
+      }
+     ],
+     "evidence": "none"
+    },
+    {
+     "id": "ELE-N2-C2",
+     "critical": false,
+     "weight": 1,
+     "text": {
+      "en": "Installs conduit wiring, switchboard and earthing",
+      "hi": "कंड्यूट वायरिंग, स्विचबोर्ड और अर्थिंग लगाना"
+     },
+     "task": {
+      "en": "Explain how you wire a switchboard and fan point and how you provide earthing.",
+      "hi": "आप स्विचबोर्ड और पंखे का पॉइंट कैसे वायर करते हैं और अर्थिंग कैसे देते हैं, बताइए।"
+     },
+     "indicators": [
+      {
+       "en": "Conduit / casing layout, colour code red-black phase, black neutral, green earth",
+       "kw": [
+        "conduit",
+        "casing",
+        "capping",
+        "colour code",
+        "color code",
+        "red",
+        "black",
+        "green",
+        "phase",
+        "neutral",
+        "earth wire",
+        "कंड्यूट",
+        "केसिंग",
+        "फेज",
+        "न्यूट्रल",
+        "लाल",
+        "हरा"
+       ]
+      },
+      {
+       "en": "Phase through switch, correct terminations and tight joints",
+       "kw": [
+        "through switch",
+        "terminal",
+        "termination",
+        "tight",
+        "connector",
+        "joint",
+        "crimp",
+        "स्विच के",
+        "टर्मिनल",
+        "कसना",
+        "कनेक्टर"
+       ]
+      },
+      {
+       "en": "Earthing: pit / plate / rod, earth wire to sockets and metal bodies",
+       "kw": [
+        "earthing",
+        "earth pit",
+        "plate",
+        "rod",
+        "earth wire",
+        "salt",
+        "charcoal",
+        "अर्थिंग",
+        "अर्थ",
+        "गड्ढा",
+        "कोयला",
+        "नमक"
+       ]
+      }
+     ],
+     "evidence": "photo"
+    }
+   ]
+  },
+  {
+   "code": "KS-ELE-N3",
+   "title": {
+    "en": "Testing and fault finding",
+    "hi": "परीक्षण और खराबी खोज"
+   },
+   "weight": 0.3,
+   "pass_threshold": 0.6,
+   "criteria": [
+    {
+     "id": "ELE-N3-C1",
+     "critical": false,
+     "weight": 1,
+     "text": {
+      "en": "Tests circuits with meters",
+      "hi": "मीटर से सर्किट की जांच"
+     },
+     "task": {
+      "en": "Which tests do you carry out on a new wiring job and which instruments do you use?",
+      "hi": "नई वायरिंग पर आप कौन-कौन सी जांच करते हैं और कौन से उपकरण इस्तेमाल करते हैं?"
+     },
+     "indicators": [
+      {
+       "en": "Continuity test with multimeter",
+       "kw": [
+        "continuity",
+        "multimeter",
+        "buzzer",
+        "beep",
+        "कंटीन्यूटी",
+        "मल्टीमीटर"
+       ]
+      },
+      {
+       "en": "Insulation resistance with megger",
+       "kw": [
+        "megger",
+        "insulation resistance",
+        "ir test",
+        "megohm",
+        "मेगर",
+        "इंसुलेशन"
+       ]
+      },
+      {
+       "en": "Polarity, earth and voltage checks before energising",
+       "kw": [
+        "polarity",
+        "earth test",
+        "voltage check",
+        "energise",
+        "energize",
+        "ध्रुवता",
+        "पोलैरिटी"
+       ]
+      }
+     ],
+     "evidence": "photo"
+    },
+    {
+     "id": "ELE-N3-C2",
+     "critical": false,
+     "weight": 1,
+     "text": {
+      "en": "Finds and repairs common faults",
+      "hi": "आम खराबियाँ खोजना और ठीक करना"
+     },
+     "task": {
+      "en": "Your MCB keeps tripping and a socket is dead. How do you find and fix the problem?",
+      "hi": "आपका एमसीबी बार-बार ट्रिप होता है और एक सॉकेट काम नहीं कर रहा। आप समस्या कैसे ढूँढते और ठीक करते हैं?"
+     },
+     "indicators": [
+      {
+       "en": "Splits the circuit: isolates loads one by one",
+       "kw": [
+        "one by one",
+        "isolate load",
+        "disconnect",
+        "divide",
+        "section",
+        "isolate",
+        "अलग",
+        "एक-एक",
+        "एक एक"
+       ]
+      },
+      {
+       "en": "Identifies cause: overload, short circuit, earth leak, loose joint",
+       "kw": [
+        "overload",
+        "short",
+        "earth leakage",
+        "loose",
+        "burnt",
+        "burn",
+        "carbon",
+        "ओवरलोड",
+        "शॉर्ट",
+        "ढीला",
+        "जला"
+       ]
+      },
+      {
+       "en": "Repairs and retests before restoring supply",
+       "kw": [
+        "replace",
+        "repair",
+        "retest",
+        "test again",
+        "restore",
+        "बदल",
+        "मरम्मत",
+        "दोबारा जांच"
+       ]
+      }
+     ],
+     "evidence": "video"
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,503 @@
+{
+ "code": "KS-WLD-L4",
+ "official_code": null,
+ "verified": false,
+ "source_note": "Authored for the KaushalSetu prototype from publicly described trade outlines. NOT an official NCVET/SSC document. Replace with the verified Qualification Pack (use scripts/import_qp_csv.py) before any real certification use.",
+ "title": {
+  "en": "Welder (Arc Welding)",
+  "hi": "वेल्डर (आर्क वेल्डिंग)",
+  "mr": "वेल्डर (आर्क वेल्डिंग)"
+ },
+ "sector": "Fabrication",
+ "nsqf_level": 4,
+ "description": {
+  "en": "Prepares joints and performs manual metal arc welding on mild steel to drawing, and inspects weld quality.",
+  "hi": "ड्राइंग के अनुसार जोड़ तैयार करना, माइल्ड स्टील पर आर्क वेल्डिंग करना और वेल्ड की गुणवत्ता जांचना।",
+  "mr": "आराखड्यानुसार जोड तयार करणे, माइल्ड स्टीलवर आर्क वेल्डिंग करणे व वेल्डची गुणवत्ता तपासणे."
+ },
+ "keywords": {
+  "en": [
+   "welder",
+   "welding",
+   "weld",
+   "arc",
+   "electrode",
+   "fabrication",
+   "fabricator",
+   "joint",
+   "butt joint",
+   "fillet",
+   "mig",
+   "tig",
+   "gas cutting",
+   "grinding",
+   "steel",
+   "mild steel",
+   "gate",
+   "grill",
+   "structure",
+   "bead",
+   "slag",
+   "flux",
+   "helmet",
+   "welding machine"
+  ],
+  "hi": [
+   "वेल्डर",
+   "वेल्डिंग",
+   "आर्क",
+   "इलेक्ट्रोड",
+   "जोड़",
+   "लोहा",
+   "स्टील",
+   "ग्रिल",
+   "गेट",
+   "फैब्रिकेशन",
+   "ग्राइंडर",
+   "मशीन",
+   "गैस कटिंग"
+  ],
+  "mr": [
+   "वेल्डर",
+   "वेल्डिंग",
+   "आर्क",
+   "इलेक्ट्रोड",
+   "जोड",
+   "लोखंड",
+   "स्टील",
+   "ग्रील",
+   "गेट",
+   "फॅब्रिकेशन"
+  ],
+  "rom": [
+   "welder",
+   "welding",
+   "weld",
+   "electrode",
+   "fabrication",
+   "jod",
+   "lohe ka kaam",
+   "grill",
+   "gate",
+   "arc welding",
+   "grinder",
+   "machine"
+  ]
+ },
+ "nos": [
+  {
+   "code": "KS-WLD-N1",
+   "title": {
+    "en": "Welding safety",
+    "hi": "वेल्डिंग सुरक्षा"
+   },
+   "weight": 0.3,
+   "pass_threshold": 0.6,
+   "criteria": [
+    {
+     "id": "WLD-N1-C1",
+     "critical": true,
+     "weight": 1,
+     "text": {
+      "en": "Uses PPE and controls fire and fume hazards",
+      "hi": "PPE का उपयोग और आग व धुएँ के खतरों पर नियंत्रण"
+     },
+     "task": {
+      "en": "What protective gear do you wear when you weld, and how do you keep the work area safe from fire and fumes?",
+      "hi": "वेल्डिंग करते समय आप कौन सा सुरक्षा गियर पहनते हैं और आग व धुएँ से जगह को कैसे सुरक्षित रखते हैं?"
+     },
+     "indicators": [
+      {
+       "en": "Helmet / face shield with correct shade, gloves, apron, safety shoes",
+       "kw": [
+        "helmet",
+        "shield",
+        "shade",
+        "gloves",
+        "apron",
+        "leather",
+        "safety shoes",
+        "goggles",
+        "हेलमेट",
+        "शील्ड",
+        "दस्ताने",
+        "एप्रन",
+        "जूते"
+       ]
+      },
+      {
+       "en": "Removes flammables; keeps fire extinguisher / sand bucket ready",
+       "kw": [
+        "flammable",
+        "extinguisher",
+        "sand",
+        "bucket",
+        "fire",
+        "spark",
+        "remove",
+        "आग",
+        "रेत",
+        "बाल्टी",
+        "चिंगारी"
+       ]
+      },
+      {
+       "en": "Ventilation or fume extraction; avoids welding galvanised or painted surfaces",
+       "kw": [
+        "ventilation",
+        "fume",
+        "exhaust",
+        "smoke",
+        "galvanised",
+        "galvanized",
+        "paint",
+        "हवा",
+        "धुआँ",
+        "धुआं",
+        "पेंट"
+       ]
+      }
+     ],
+     "evidence": "photo"
+    },
+    {
+     "id": "WLD-N1-C2",
+     "critical": false,
+     "weight": 1,
+     "text": {
+      "en": "Checks equipment, cables, earthing and gas safety",
+      "hi": "उपकरण, केबल, अर्थिंग और गैस सुरक्षा की जांच"
+     },
+     "task": {
+      "en": "How do you check your welding machine and cables before you start, and how do you handle gas cylinders if you use them?",
+      "hi": "काम शुरू करने से पहले आप वेल्डिंग मशीन और केबल की जांच कैसे करते हैं और गैस सिलेंडर कैसे संभालते हैं?"
+     },
+     "indicators": [
+      {
+       "en": "Inspects cables, holder and insulation; sound earth clamp",
+       "kw": [
+        "cable",
+        "holder",
+        "insulation",
+        "earth clamp",
+        "earthing",
+        "clamp",
+        "damaged",
+        "केबल",
+        "होल्डर",
+        "अर्थिंग",
+        "क्लैंप"
+       ]
+      },
+      {
+       "en": "Keeps electrodes dry and uses correct current",
+       "kw": [
+        "dry",
+        "oven",
+        "damp",
+        "moisture",
+        "current",
+        "amps",
+        "सूखा",
+        "नमी",
+        "करंट"
+       ]
+      },
+      {
+       "en": "Secures cylinders upright; regulator and flashback arrestor",
+       "kw": [
+        "cylinder",
+        "regulator",
+        "flashback",
+        "arrestor",
+        "upright",
+        "chain",
+        "सिलेंडर",
+        "रेगुलेटर",
+        "खड़ा"
+       ]
+      }
+     ],
+     "evidence": "none"
+    }
+   ]
+  },
+  {
+   "code": "KS-WLD-N2",
+   "title": {
+    "en": "Joint preparation and arc welding",
+    "hi": "जोड़ की तैयारी और आर्क वेल्डिंग"
+   },
+   "weight": 0.4,
+   "pass_threshold": 0.6,
+   "criteria": [
+    {
+     "id": "WLD-N2-C1",
+     "critical": false,
+     "weight": 1,
+     "text": {
+      "en": "Reads the drawing and prepares the joint",
+      "hi": "ड्राइंग पढ़कर जोड़ तैयार करना"
+     },
+     "task": {
+      "en": "Describe how you prepare plates or pipes for a butt joint: cleaning, edge shape, gap and tacking.",
+      "hi": "बट जोड़ के लिए प्लेट या पाइप कैसे तैयार करते हैं: सफाई, किनारे का आकार, गैप और टैक वेल्ड बताइए।"
+     },
+     "indicators": [
+      {
+       "en": "Reads drawing / weld symbol and dimensions",
+       "kw": [
+        "drawing",
+        "symbol",
+        "dimension",
+        "blueprint",
+        "wps",
+        "size",
+        "ड्राइंग",
+        "नक्शा",
+        "साइज़",
+        "माप"
+       ]
+      },
+      {
+       "en": "Cleans mill scale, rust, paint; bevels the edge",
+       "kw": [
+        "clean",
+        "mill scale",
+        "rust",
+        "grind",
+        "grinder",
+        "bevel",
+        "chamfer",
+        "wire brush",
+        "सफाई",
+        "जंग",
+        "ग्राइंडर",
+        "बेवल"
+       ]
+      },
+      {
+       "en": "Sets root gap and tack welds to hold alignment",
+       "kw": [
+        "root gap",
+        "gap",
+        "tack",
+        "alignment",
+        "fit up",
+        "fit-up",
+        "jig",
+        "clamp",
+        "गैप",
+        "टैक",
+        "अलाइनमेंट"
+       ]
+      }
+     ],
+     "evidence": "photo"
+    },
+    {
+     "id": "WLD-N2-C2",
+     "critical": false,
+     "weight": 1,
+     "text": {
+      "en": "Welds butt and fillet joints to standard",
+      "hi": "बट और फिलेट जोड़ मानक के अनुसार वेल्ड करना"
+     },
+     "task": {
+      "en": "Which electrode and current do you use on 6 mm mild steel plate, and how do you weld a fillet or butt joint in flat and horizontal positions?",
+      "hi": "6 मिमी माइल्ड स्टील प्लेट पर आप कौन सा इलेक्ट्रोड और करंट लेते हैं और फ्लैट तथा हॉरिजॉन्टल पोज़िशन में जोड़ कैसे वेल्ड करते हैं?"
+     },
+     "indicators": [
+      {
+       "en": "Chooses electrode (E6013 / E7018 / 3.15 mm) and current range",
+       "kw": [
+        "6013",
+        "7018",
+        "e6013",
+        "e7018",
+        "3.15",
+        "2.5 mm",
+        "3.2",
+        "electrode",
+        "amps",
+        "current",
+        "इलेक्ट्रोड",
+        "करंट",
+        "एम्पीयर"
+       ]
+      },
+      {
+       "en": "Controls arc length, angle and travel speed for uniform bead",
+       "kw": [
+        "arc length",
+        "angle",
+        "travel",
+        "speed",
+        "bead",
+        "weave",
+        "stringer",
+        "short arc",
+        "एंगल",
+        "स्पीड",
+        "बीड",
+        "आर्क"
+       ]
+      },
+      {
+       "en": "Welds in flat / horizontal (1F, 2F, 1G, 2G) with proper root and cap passes",
+       "kw": [
+        "flat",
+        "horizontal",
+        "1g",
+        "2g",
+        "1f",
+        "2f",
+        "root",
+        "cap",
+        "pass",
+        "position",
+        "फ्लैट",
+        "हॉरिजॉन्टल",
+        "पोज़िशन",
+        "रूट"
+       ]
+      }
+     ],
+     "evidence": "video"
+    }
+   ]
+  },
+  {
+   "code": "KS-WLD-N3",
+   "title": {
+    "en": "Weld inspection and defect correction",
+    "hi": "वेल्ड निरीक्षण और दोष सुधार"
+   },
+   "weight": 0.3,
+   "pass_threshold": 0.6,
+   "criteria": [
+    {
+     "id": "WLD-N3-C1",
+     "critical": false,
+     "weight": 1,
+     "text": {
+      "en": "Inspects the weld visually",
+      "hi": "वेल्ड का दृश्य निरीक्षण"
+     },
+     "task": {
+      "en": "How do you check a finished weld, and which defects do you look for?",
+      "hi": "तैयार वेल्ड की जांच आप कैसे करते हैं और कौन से दोष देखते हैं?"
+     },
+     "indicators": [
+      {
+       "en": "Removes slag and spatter, then inspects bead uniformity",
+       "kw": [
+        "slag",
+        "chipping",
+        "spatter",
+        "wire brush",
+        "uniform",
+        "bead",
+        "स्लैग",
+        "स्पैटर",
+        "बीड"
+       ]
+      },
+      {
+       "en": "Identifies defects: undercut, porosity, cracks, lack of fusion, overlap",
+       "kw": [
+        "undercut",
+        "porosity",
+        "crack",
+        "lack of fusion",
+        "overlap",
+        "pinhole",
+        "blowhole",
+        "अंडरकट",
+        "छेद",
+        "दरार"
+       ]
+      },
+      {
+       "en": "Checks size, penetration and gauge / measures leg length",
+       "kw": [
+        "gauge",
+        "penetration",
+        "leg length",
+        "size",
+        "measure",
+        "ruler",
+        "गेज",
+        "पेनिट्रेशन",
+        "माप"
+       ]
+      }
+     ],
+     "evidence": "photo"
+    },
+    {
+     "id": "WLD-N3-C2",
+     "critical": false,
+     "weight": 1,
+     "text": {
+      "en": "Corrects defects and controls distortion",
+      "hi": "दोष सुधारना और विकृति नियंत्रित करना"
+     },
+     "task": {
+      "en": "What do you do when you find a defect, and how do you stop plates from bending while welding?",
+      "hi": "वेल्ड में दोष मिलने पर आप क्या करते हैं और वेल्डिंग के दौरान प्लेट को मुड़ने से कैसे रोकते हैं?"
+     },
+     "indicators": [
+      {
+       "en": "Gouges or grinds out the defect and re-welds",
+       "kw": [
+        "grind out",
+        "gouge",
+        "remove",
+        "re-weld",
+        "reweld",
+        "repair",
+        "cut out",
+        "ग्राइंड",
+        "दोबारा",
+        "मरम्मत"
+       ]
+      },
+      {
+       "en": "Distortion control: tack, back-step, skip welding, balanced sequence",
+       "kw": [
+        "distortion",
+        "back step",
+        "backstep",
+        "skip",
+        "sequence",
+        "balance",
+        "tack",
+        "bend",
+        "warp",
+        "मुड़",
+        "विकृति",
+        "क्रम"
+       ]
+      },
+      {
+       "en": "Uses clamps / strongbacks, preheat when thick",
+       "kw": [
+        "clamp",
+        "strongback",
+        "preheat",
+        "pre-heat",
+        "jig",
+        "thick",
+        "क्लैंप",
+        "प्रीहीट",
+        "जिग"
+       ]
+      }
+     ],
+     "evidence": "none"
+    }
+   ]
+  }
+ ]
+}

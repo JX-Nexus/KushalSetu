@@ -1,16 +1,49 @@
-# Monorepo root — KaushalSetu (SIH26242)
-#
-# For now only the Flutter app under /app is tracked. Everything else in this
-# working directory (design decks, submission zips, extracted references, and
-# the not-yet-created /server) is intentionally ignored.
-#
-# Layout:
-#   /app     -> Flutter mobile app (local-first)
-#   /server  -> (reserved, not yet added)
+﻿# Preserve the existing GitHub app
+/app/
 
-# Ignore everything at the root...
-/*
-# ...except the app and this file.
-!/app/
-!/.gitignore
-!/README.md
+# Include the new Flutter app and FastAPI backend
+/mobile/
+!/mobile/
+!/server/
+!/docs/
+
+# Python
+server/.venv/
+server/**/__pycache__/
+server/.pytest_cache/
+server/.mypy_cache/
+server/.ruff_cache/
+*.py[cod]
+*.egg-info/
+
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+server/.env
+server/.env.*
+!server/.env.example
+
+# Local databases and uploaded assessment data
+*.db
+*.sqlite
+*.sqlite3
+server/storage/
+server/uploads/
+server/data/*.db
+
+# Flutter generated files
+mobile/.dart_tool/
+mobile/build/
+mobile/.flutter-plugins
+mobile/.flutter-plugins-dependencies
+
+# Android build output and local machine settings
+mobile/android/.gradle/
+mobile/android/local.properties
+
+# IDE and operating system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

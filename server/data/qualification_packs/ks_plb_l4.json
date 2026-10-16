@@ -1,0 +1,522 @@
+{
+ "code": "KS-PLB-L4",
+ "official_code": null,
+ "verified": false,
+ "source_note": "Authored for the KaushalSetu prototype from publicly described trade outlines. NOT an official NCVET/SSC document. Replace with the verified Qualification Pack (use scripts/import_qp_csv.py) before any real certification use.",
+ "title": {
+  "en": "Plumber (General)",
+  "hi": "प्लंबर (सामान्य)",
+  "mr": "प्लंबर (सामान्य)"
+ },
+ "sector": "Plumbing",
+ "nsqf_level": 4,
+ "description": {
+  "en": "Installs, tests and repairs water supply, drainage and sanitary systems in residential and commercial buildings.",
+  "hi": "घरों और इमारतों में पानी की आपूर्ति, नाली और सैनिटरी प्रणाली लगाना, जांचना और मरम्मत करना।",
+  "mr": "घरे व इमारतींमध्ये पाणीपुरवठा, निचरा व सॅनिटरी यंत्रणा बसवणे, तपासणे व दुरुस्त करणे."
+ },
+ "keywords": {
+  "en": [
+   "plumber",
+   "plumbing",
+   "pipe",
+   "pipes",
+   "pipefitting",
+   "tap",
+   "taps",
+   "faucet",
+   "valve",
+   "leak",
+   "leakage",
+   "water supply",
+   "drainage",
+   "sanitary",
+   "toilet",
+   "bathroom",
+   "water tank",
+   "overhead tank",
+   "geyser",
+   "cpvc",
+   "upvc",
+   "ppr",
+   "gi pipe",
+   "fitting",
+   "fittings",
+   "sewer",
+   "drain",
+   "wash basin",
+   "flush",
+   "pump"
+  ],
+  "hi": [
+   "प्लंबर",
+   "प्लम्बर",
+   "नल",
+   "पाइप",
+   "टोंटी",
+   "वाल्व",
+   "लीकेज",
+   "रिसाव",
+   "पानी",
+   "नाली",
+   "सैनिटरी",
+   "बाथरूम",
+   "शौचालय",
+   "टंकी",
+   "फिटिंग",
+   "मोटर",
+   "गीजर",
+   "सीवर"
+  ],
+  "mr": [
+   "प्लंबर",
+   "नळ",
+   "पाईप",
+   "झडप",
+   "गळती",
+   "पाणी",
+   "नाली",
+   "स्वच्छतागृह",
+   "टाकी",
+   "फिटिंग",
+   "मोटार"
+  ],
+  "rom": [
+   "plumber",
+   "plamber",
+   "nal",
+   "nalka",
+   "paani",
+   "pani",
+   "tanki",
+   "tonti",
+   "naali",
+   "nali",
+   "leakage",
+   "pipe lagana",
+   "fitting",
+   "bathroom",
+   "motor",
+   "sanitary",
+   "safai"
+  ]
+ },
+ "nos": [
+  {
+   "code": "KS-PLB-N1",
+   "title": {
+    "en": "Site safety and preparation",
+    "hi": "साइट सुरक्षा और तैयारी"
+   },
+   "weight": 0.3,
+   "pass_threshold": 0.6,
+   "criteria": [
+    {
+     "id": "PLB-N1-C1",
+     "critical": true,
+     "weight": 1,
+     "text": {
+      "en": "Prepares the site and protects self before plumbing work",
+      "hi": "काम से पहले साइट तैयार करना और अपनी सुरक्षा करना"
+     },
+     "task": {
+      "en": "Describe the steps you follow before you start work on a pipe or fixture, including what you wear and what you switch off.",
+      "hi": "पाइप या फिटिंग पर काम शुरू करने से पहले आप क्या-क्या करते हैं, क्या पहनते हैं और क्या बंद करते हैं, बताइए।"
+     },
+     "indicators": [
+      {
+       "en": "Closes the supply / main valve before opening any line",
+       "kw": [
+        "isolate",
+        "shut off",
+        "shutoff",
+        "close valve",
+        "stop cock",
+        "main valve",
+        "band",
+        "बंद",
+        "वाल्व",
+        "मेन",
+        "valve band",
+        "बंद करता"
+       ]
+      },
+      {
+       "en": "Wears PPE: gloves, goggles, safety shoes",
+       "kw": [
+        "gloves",
+        "glove",
+        "goggles",
+        "safety shoes",
+        "shoes",
+        "helmet",
+        "ppe",
+        "दस्ताने",
+        "चश्मा",
+        "जूते",
+        "हाथ के दस्ताने",
+        "glove pehn"
+       ]
+      },
+      {
+       "en": "Protects floor, fixtures and checks for electrical hazards near water",
+       "kw": [
+        "cover",
+        "protect",
+        "floor",
+        "electric",
+        "switch off power",
+        "mcb",
+        "earth",
+        "बिजली",
+        "फर्श",
+        "ढक",
+        "सुरक्षित"
+       ]
+      }
+     ],
+     "evidence": "photo"
+    },
+    {
+     "id": "PLB-N1-C2",
+     "critical": false,
+     "weight": 1,
+     "text": {
+      "en": "Handles hot work, solvents and waste safely",
+      "hi": "गर्म काम, सॉल्वेंट और कचरे को सुरक्षित संभालना"
+     },
+     "task": {
+      "en": "Explain how you stay safe when you use a blow torch, solvent cement or cut pipes, and how you leave the site after work.",
+      "hi": "ब्लो टॉर्च, सॉल्वेंट सीमेंट या पाइप काटते समय आप खुद को कैसे सुरक्षित रखते हैं और काम के बाद साइट कैसे छोड़ते हैं, बताइए।"
+     },
+     "indicators": [
+      {
+       "en": "Ventilation and fire precautions when using torch or solvent",
+       "kw": [
+        "ventilation",
+        "ventilated",
+        "fire",
+        "extinguisher",
+        "torch",
+        "solvent",
+        "flame",
+        "हवा",
+        "आग",
+        "टॉर्च",
+        "सॉल्वेंट"
+       ]
+      },
+      {
+       "en": "Safe tool handling (cutter, hacksaw, pipe wrench)",
+       "kw": [
+        "cutter",
+        "hacksaw",
+        "wrench",
+        "sharp",
+        "blade",
+        "tool",
+        "औजार",
+        "कटर",
+        "रिंच",
+        "पाना"
+       ]
+      },
+      {
+       "en": "Cleans site and disposes of waste and offcuts",
+       "kw": [
+        "clean",
+        "cleaning",
+        "waste",
+        "dispose",
+        "debris",
+        "offcut",
+        "सफाई",
+        "कचरा",
+        "साफ"
+       ]
+      }
+     ],
+     "evidence": "photo"
+    }
+   ]
+  },
+  {
+   "code": "KS-PLB-N2",
+   "title": {
+    "en": "Pipe selection, installation and jointing",
+    "hi": "पाइप चयन, स्थापना और जोड़"
+   },
+   "weight": 0.4,
+   "pass_threshold": 0.6,
+   "criteria": [
+    {
+     "id": "PLB-N2-C1",
+     "critical": false,
+     "weight": 1,
+     "text": {
+      "en": "Selects pipe material, size and fittings for the job",
+      "hi": "काम के लिए पाइप की सामग्री, साइज़ और फिटिंग चुनना"
+     },
+     "task": {
+      "en": "Tell us which pipe and fittings you choose for (a) hot water, (b) cold water supply, (c) drainage, and why.",
+      "hi": "(क) गर्म पानी, (ख) ठंडे पानी की सप्लाई, (ग) नाली के लिए आप कौन सा पाइप और फिटिंग चुनते हैं और क्यों?"
+     },
+     "indicators": [
+      {
+       "en": "Knows pipe materials: GI, CPVC, UPVC, PPR, copper",
+       "kw": [
+        "gi",
+        "cpvc",
+        "upvc",
+        "ppr",
+        "copper",
+        "pvc",
+        "swr",
+        "brass",
+        "जीआई",
+        "पीवीसी",
+        "कॉपर"
+       ]
+      },
+      {
+       "en": "Chooses by use: hot vs cold vs drainage, pressure and size",
+       "kw": [
+        "hot",
+        "cold",
+        "drain",
+        "pressure",
+        "inch",
+        "mm",
+        "size",
+        "diameter",
+        "गर्म",
+        "ठंडा",
+        "नाली",
+        "दबाव",
+        "इंच"
+       ]
+      },
+      {
+       "en": "Names correct fittings: elbow, tee, union, coupler, reducer",
+       "kw": [
+        "elbow",
+        "tee",
+        "union",
+        "coupler",
+        "reducer",
+        "bend",
+        "socket",
+        "नी",
+        "एल्बो",
+        "टी",
+        "यूनियन",
+        "बेंड"
+       ]
+      }
+     ],
+     "evidence": "none"
+    },
+    {
+     "id": "PLB-N2-C2",
+     "critical": false,
+     "weight": 1,
+     "text": {
+      "en": "Cuts, joins and supports pipe runs correctly",
+      "hi": "पाइप को सही तरह काटना, जोड़ना और सहारा देना"
+     },
+     "task": {
+      "en": "Describe how you measure, cut, join and fix a pipe run, and how you make sure the drain has a slope.",
+      "hi": "पाइप कैसे नापते, काटते, जोड़ते और कसते हैं और नाली में ढलान कैसे सुनिश्चित करते हैं, बताइए।"
+     },
+     "indicators": [
+      {
+       "en": "Measures and cuts square, removes burrs",
+       "kw": [
+        "measure",
+        "tape",
+        "cut",
+        "square",
+        "burr",
+        "deburr",
+        "mark",
+        "नाप",
+        "काट",
+        "कटिंग",
+        "निशान"
+       ]
+      },
+      {
+       "en": "Joins correctly: threading with PTFE, solvent weld or fusion",
+       "kw": [
+        "thread",
+        "threading",
+        "ptfe",
+        "teflon",
+        "solvent",
+        "weld",
+        "fusion",
+        "joint",
+        "जोड़",
+        "धागा",
+        "टेफ्लॉन",
+        "फ्यूजन"
+       ]
+      },
+      {
+       "en": "Supports with clamps and gives proper slope on drainage",
+       "kw": [
+        "clamp",
+        "support",
+        "slope",
+        "gradient",
+        "fall",
+        "level",
+        "क्लैंप",
+        "ढलान",
+        "लेवल"
+       ]
+      }
+     ],
+     "evidence": "photo"
+    }
+   ]
+  },
+  {
+   "code": "KS-PLB-N3",
+   "title": {
+    "en": "Testing, fault finding and repair",
+    "hi": "परीक्षण, खराबी खोज और मरम्मत"
+   },
+   "weight": 0.3,
+   "pass_threshold": 0.6,
+   "criteria": [
+    {
+     "id": "PLB-N3-C1",
+     "critical": false,
+     "weight": 1,
+     "text": {
+      "en": "Tests the installation for leaks and pressure",
+      "hi": "लीकेज और दबाव के लिए इंस्टॉलेशन की जांच"
+     },
+     "task": {
+      "en": "How do you test a new water line before you close the wall or hand it over?",
+      "hi": "दीवार बंद करने या काम सौंपने से पहले नई पानी की लाइन की जांच आप कैसे करते हैं?"
+     },
+     "indicators": [
+      {
+       "en": "Closes outlets and fills / pressurises the line",
+       "kw": [
+        "fill",
+        "pressurise",
+        "pressurize",
+        "pressure test",
+        "hydro",
+        "water test",
+        "close outlet",
+        "plug",
+        "भर",
+        "दबाव",
+        "टेस्ट",
+        "प्लग"
+       ]
+      },
+      {
+       "en": "Uses gauge and holds pressure for a set time",
+       "kw": [
+        "gauge",
+        "bar",
+        "psi",
+        "hold",
+        "hours",
+        "minutes",
+        "hour",
+        "गेज",
+        "घंटे",
+        "मिनट"
+       ]
+      },
+      {
+       "en": "Inspects every joint and re-tightens or redoes leaks",
+       "kw": [
+        "inspect",
+        "check joint",
+        "tighten",
+        "redo",
+        "leak",
+        "drip",
+        "निरीक्षण",
+        "कस",
+        "लीक",
+        "टपक"
+       ]
+      }
+     ],
+     "evidence": "photo"
+    },
+    {
+     "id": "PLB-N3-C2",
+     "critical": false,
+     "weight": 1,
+     "text": {
+      "en": "Diagnoses and repairs common faults",
+      "hi": "आम खराबियों का निदान और मरम्मत"
+     },
+     "task": {
+      "en": "Explain how you would fix: a dripping tap, a blocked drain, and low water pressure at a tap.",
+      "hi": "टपकता नल, जाम नाली और नल में कम पानी का दबाव — इन्हें आप कैसे ठीक करेंगे?"
+     },
+     "indicators": [
+      {
+       "en": "Fixes dripping tap: washer, cartridge, O-ring or seat",
+       "kw": [
+        "washer",
+        "cartridge",
+        "o-ring",
+        "oring",
+        "seat",
+        "spindle",
+        "tap repair",
+        "वॉशर",
+        "कार्ट्रिज",
+        "टपक"
+       ]
+      },
+      {
+       "en": "Clears blocked drain: plunger, snake, trap cleaning",
+       "kw": [
+        "plunger",
+        "snake",
+        "rod",
+        "trap",
+        "choke",
+        "blocked",
+        "clog",
+        "जाम",
+        "ट्रैप",
+        "चोक",
+        "सफाई"
+       ]
+      },
+      {
+       "en": "Checks low pressure: valve, strainer, tank level, pump, leak",
+       "kw": [
+        "strainer",
+        "filter",
+        "tank",
+        "pump",
+        "motor",
+        "aerator",
+        "valve",
+        "low pressure",
+        "कम दबाव",
+        "मोटर",
+        "टंकी"
+       ]
+      }
+     ],
+     "evidence": "video"
+    }
+   ]
+  }
+ ]
+}

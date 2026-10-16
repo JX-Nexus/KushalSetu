@@ -1,0 +1,514 @@
+{
+ "code": "KS-MSN-L3",
+ "official_code": null,
+ "verified": false,
+ "source_note": "Authored for the KaushalSetu prototype from publicly described trade outlines. NOT an official NCVET/SSC document. Replace with the verified Qualification Pack (use scripts/import_qp_csv.py) before any real certification use.",
+ "title": {
+  "en": "Mason (General)",
+  "hi": "राजमिस्त्री (सामान्य)",
+  "mr": "गवंडी (सामान्य)"
+ },
+ "sector": "Construction",
+ "nsqf_level": 3,
+ "description": {
+  "en": "Lays brick and block masonry, plasters surfaces, and checks levels, plumb and quality on building sites.",
+  "hi": "निर्माण स्थल पर ईंट और ब्लॉक की चिनाई, प्लास्टर और लेवल व सीध की जांच करना।",
+  "mr": "बांधकाम स्थळावर वीट व ब्लॉकचे बांधकाम, पलस्तर आणि लेव्हल व साहुळीची तपासणी करणे."
+ },
+ "keywords": {
+  "en": [
+   "mason",
+   "mistri",
+   "masonry",
+   "brick",
+   "bricks",
+   "brickwork",
+   "block",
+   "cement",
+   "mortar",
+   "plaster",
+   "plastering",
+   "wall",
+   "concrete",
+   "sand",
+   "bond",
+   "plumb",
+   "spirit level",
+   "scaffold",
+   "tile",
+   "flooring",
+   "construction",
+   "curing",
+   "foundation"
+  ],
+  "hi": [
+   "राजमिस्त्री",
+   "मिस्त्री",
+   "ईंट",
+   "चिनाई",
+   "सीमेंट",
+   "मसाला",
+   "प्लास्टर",
+   "दीवार",
+   "कंक्रीट",
+   "रेत",
+   "बालू",
+   "नींव",
+   "तराई",
+   "निर्माण",
+   "टाइल"
+  ],
+  "mr": [
+   "गवंडी",
+   "मिस्त्री",
+   "वीट",
+   "बांधकाम",
+   "सिमेंट",
+   "पलस्तर",
+   "भिंत",
+   "काँक्रीट",
+   "वाळू",
+   "पाया",
+   "तराई"
+  ],
+  "rom": [
+   "mason",
+   "mistri",
+   "raj mistri",
+   "eent",
+   "int",
+   "cement",
+   "plaster",
+   "deewar",
+   "diwar",
+   "chinai",
+   "baalu",
+   "ret",
+   "masala",
+   "nev",
+   "tarai",
+   "construction"
+  ]
+ },
+ "nos": [
+  {
+   "code": "KS-MSN-N1",
+   "title": {
+    "en": "Construction site safety",
+    "hi": "निर्माण स्थल सुरक्षा"
+   },
+   "weight": 0.3,
+   "pass_threshold": 0.6,
+   "criteria": [
+    {
+     "id": "MSN-N1-C1",
+     "critical": true,
+     "weight": 1,
+     "text": {
+      "en": "Uses PPE and works safely at height",
+      "hi": "PPE का उपयोग और ऊँचाई पर सुरक्षित काम"
+     },
+     "task": {
+      "en": "What safety gear do you use on site and how do you check scaffolding or a ladder before working at height?",
+      "hi": "साइट पर आप कौन सा सुरक्षा गियर इस्तेमाल करते हैं और ऊँचाई पर काम से पहले मचान या सीढ़ी कैसे जांचते हैं?"
+     },
+     "indicators": [
+      {
+       "en": "Helmet, safety shoes, gloves, dust mask",
+       "kw": [
+        "helmet",
+        "safety shoes",
+        "boots",
+        "gloves",
+        "mask",
+        "dust",
+        "ppe",
+        "हेलमेट",
+        "जूते",
+        "दस्ताने",
+        "मास्क"
+       ]
+      },
+      {
+       "en": "Inspects scaffold / ladder: stable, tied, platform and railing",
+       "kw": [
+        "scaffold",
+        "scaffolding",
+        "ladder",
+        "tied",
+        "stable",
+        "railing",
+        "platform",
+        "check",
+        "मचान",
+        "सीढ़ी",
+        "बांध",
+        "रेलिंग"
+       ]
+      },
+      {
+       "en": "Safety harness / no work in bad weather; keeps area clear below",
+       "kw": [
+        "harness",
+        "belt",
+        "rain",
+        "wind",
+        "barricade",
+        "clear",
+        "below",
+        "सेफ्टी बेल्ट",
+        "हार्नेस",
+        "बारिश",
+        "नीचे"
+       ]
+      }
+     ],
+     "evidence": "photo"
+    },
+    {
+     "id": "MSN-N1-C2",
+     "critical": false,
+     "weight": 1,
+     "text": {
+      "en": "Handles cement and materials safely",
+      "hi": "सीमेंट और सामग्री का सुरक्षित संचालन"
+     },
+     "task": {
+      "en": "How do you handle cement, lift heavy material and keep the site tidy?",
+      "hi": "सीमेंट कैसे संभालते हैं, भारी सामान कैसे उठाते हैं और साइट को साफ-सुथरा कैसे रखते हैं?"
+     },
+     "indicators": [
+      {
+       "en": "Gloves and care against cement burns; washes skin and eyes",
+       "kw": [
+        "gloves",
+        "burn",
+        "wash",
+        "skin",
+        "eyes",
+        "irritation",
+        "दस्ताने",
+        "जलन",
+        "धोते"
+       ]
+      },
+      {
+       "en": "Correct lifting: bend knees, share load, use trolley or hoist",
+       "kw": [
+        "lift",
+        "lifting",
+        "knees",
+        "back",
+        "trolley",
+        "hoist",
+        "share",
+        "pulley",
+        "उठाने",
+        "घुटने",
+        "कमर",
+        "ट्रॉली"
+       ]
+      },
+      {
+       "en": "Stores cement dry off the ground; keeps passages clear",
+       "kw": [
+        "store",
+        "stack",
+        "dry",
+        "pallet",
+        "off the ground",
+        "passage",
+        "tidy",
+        "स्टोर",
+        "सूखा",
+        "जगह",
+        "साफ"
+       ]
+      }
+     ],
+     "evidence": "none"
+    }
+   ]
+  },
+  {
+   "code": "KS-MSN-N2",
+   "title": {
+    "en": "Masonry and plastering",
+    "hi": "चिनाई और प्लास्टर"
+   },
+   "weight": 0.4,
+   "pass_threshold": 0.6,
+   "criteria": [
+    {
+     "id": "MSN-N2-C1",
+     "critical": false,
+     "weight": 1,
+     "text": {
+      "en": "Sets out and lays brick or block masonry",
+      "hi": "चिनाई की सेटिंग और ईंट/ब्लॉक की चिनाई"
+     },
+     "task": {
+      "en": "Explain how you lay a brick wall: setting out, mortar mix, bond and keeping it straight and plumb.",
+      "hi": "ईंट की दीवार कैसे बनाते हैं: मार्किंग, मसाला मिक्स, बॉन्ड और सीध व साहुल कैसे रखते हैं, बताइए।"
+     },
+     "indicators": [
+      {
+       "en": "Sets out with line, thread, plumb bob and spirit level",
+       "kw": [
+        "line",
+        "thread",
+        "string",
+        "plumb",
+        "plumb bob",
+        "spirit level",
+        "level",
+        "marking",
+        "डोरी",
+        "धागा",
+        "साहुल",
+        "लेवल",
+        "मार्किंग"
+       ]
+      },
+      {
+       "en": "Mortar mix ratio (e.g. 1:4 / 1:6) and joint thickness about 10 mm",
+       "kw": [
+        "1:4",
+        "1:6",
+        "ratio",
+        "mortar",
+        "mix",
+        "10 mm",
+        "joint",
+        "thickness",
+        "अनुपात",
+        "मसाला",
+        "मिक्स",
+        "जोड़"
+       ]
+      },
+      {
+       "en": "Bond (English / Flemish), frog up, wets bricks, breaks joints",
+       "kw": [
+        "bond",
+        "english bond",
+        "flemish",
+        "stretcher",
+        "header",
+        "frog",
+        "wet",
+        "soak",
+        "break joint",
+        "बॉन्ड",
+        "भिगो",
+        "स्ट्रेचर",
+        "हेडर"
+       ]
+      }
+     ],
+     "evidence": "photo"
+    },
+    {
+     "id": "MSN-N2-C2",
+     "critical": false,
+     "weight": 1,
+     "text": {
+      "en": "Plasters and finishes surfaces",
+      "hi": "सतह पर प्लास्टर और फिनिशिंग"
+     },
+     "task": {
+      "en": "How do you plaster a wall from surface preparation to finishing?",
+      "hi": "दीवार पर प्लास्टर सतह की तैयारी से फिनिशिंग तक कैसे करते हैं?"
+     },
+     "indicators": [
+      {
+       "en": "Prepares surface: rakes joints, cleans and wets the wall",
+       "kw": [
+        "rake",
+        "clean",
+        "wet",
+        "dampen",
+        "surface",
+        "hack",
+        "roughen",
+        "साफ",
+        "गीला",
+        "भिगो",
+        "खुरच",
+        "सतह"
+       ]
+      },
+      {
+       "en": "Uses gauges / patti and mix ratio (1:4 / 1:6), about 12 mm thickness",
+       "kw": [
+        "gauge",
+        "patti",
+        "screed",
+        "thickness",
+        "12 mm",
+        "1:4",
+        "1:6",
+        "ratio",
+        "पट्टी",
+        "गेज",
+        "मोटाई",
+        "अनुपात"
+       ]
+      },
+      {
+       "en": "Finishes with float / rule and keeps surface plumb and flat",
+       "kw": [
+        "float",
+        "floating",
+        "rule",
+        "trowel",
+        "finish",
+        "flat",
+        "plumb",
+        "नीरू",
+        "फ्लोट",
+        "रूल",
+        "फिनिश",
+        "समतल"
+       ]
+      }
+     ],
+     "evidence": "photo"
+    }
+   ]
+  },
+  {
+   "code": "KS-MSN-N3",
+   "title": {
+    "en": "Measurement and quality",
+    "hi": "माप और गुणवत्ता"
+   },
+   "weight": 0.3,
+   "pass_threshold": 0.6,
+   "criteria": [
+    {
+     "id": "MSN-N3-C1",
+     "critical": false,
+     "weight": 1,
+     "text": {
+      "en": "Measures and estimates material quantities",
+      "hi": "माप और सामग्री की मात्रा का अनुमान"
+     },
+     "task": {
+      "en": "How would you estimate the bricks and cement needed for a 10 ft by 10 ft wall, 9 inch thick?",
+      "hi": "10 फुट × 10 फुट की 9 इंच मोटी दीवार के लिए ईंट और सीमेंट का अनुमान आप कैसे लगाएंगे?"
+     },
+     "indicators": [
+      {
+       "en": "Calculates area / volume from length, height and thickness",
+       "kw": [
+        "area",
+        "volume",
+        "length",
+        "height",
+        "thickness",
+        "multiply",
+        "cubic",
+        "क्षेत्रफल",
+        "आयतन",
+        "लंबाई",
+        "ऊंचाई",
+        "गुणा"
+       ]
+      },
+      {
+       "en": "Uses brick count per cubic metre or per square foot and adds wastage",
+       "kw": [
+        "per cubic",
+        "per sq",
+        "wastage",
+        "number of bricks",
+        "count",
+        "brick count",
+        "नग",
+        "संख्या",
+        "बर्बादी"
+       ]
+      },
+      {
+       "en": "Converts mortar to cement and sand bags",
+       "kw": [
+        "bags",
+        "bag",
+        "sand",
+        "cement bag",
+        "convert",
+        "बोरी",
+        "बोरे",
+        "रेत",
+        "बैग"
+       ]
+      }
+     ],
+     "evidence": "none"
+    },
+    {
+     "id": "MSN-N3-C2",
+     "critical": false,
+     "weight": 1,
+     "text": {
+      "en": "Checks quality and cures the work",
+      "hi": "गुणवत्ता जांच और क्योरिंग"
+     },
+     "task": {
+      "en": "What checks do you make on finished masonry and plaster, and how do you cure it?",
+      "hi": "तैयार चिनाई और प्लास्टर में आप कौन सी जांच करते हैं और क्योरिंग कैसे करते हैं?"
+     },
+     "indicators": [
+      {
+       "en": "Checks plumb, level, straightness and joint filling",
+       "kw": [
+        "plumb",
+        "level",
+        "straight",
+        "straightness",
+        "check",
+        "gap",
+        "filled",
+        "सीध",
+        "साहुल",
+        "लेवल",
+        "जांच"
+       ]
+      },
+      {
+       "en": "Looks for cracks, hollow sound, loose patches",
+       "kw": [
+        "crack",
+        "hollow",
+        "tap",
+        "loose",
+        "patch",
+        "दरार",
+        "खोखला",
+        "ढीला"
+       ]
+      },
+      {
+       "en": "Cures by keeping wet for about 7 days or more",
+       "kw": [
+        "cure",
+        "curing",
+        "water",
+        "7 days",
+        "seven days",
+        "wet",
+        "sprinkle",
+        "क्योरिंग",
+        "तराई",
+        "पानी",
+        "दिन"
+       ]
+      }
+     ],
+     "evidence": "photo"
+    }
+   ]
+  }
+ ]
+}
