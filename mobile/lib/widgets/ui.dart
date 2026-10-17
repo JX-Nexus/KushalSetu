@@ -4,11 +4,17 @@ import '../i18n/strings.dart';
 import '../services/sync_service.dart';
 import '../state/app_state.dart';
 import '../theme/app_theme.dart';
+import 'design.dart';
 
 /// Translation helper (worker-facing strings). Reads the current language.
 String tr(BuildContext context, String key) {
   final lang = Provider.of<AppState>(context, listen: false).lang;
   return Strings.t(lang, key);
+}
+
+String trf(BuildContext context, String key, Map<String, String> args) {
+  final lang = Provider.of<AppState>(context, listen: false).lang;
+  return Strings.f(lang, key, args);
 }
 
 String curLang(BuildContext context) => Provider.of<AppState>(context, listen: false).lang;
@@ -153,6 +159,9 @@ class AppCard extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(16),
               border: Border.all(color: border ?? AppTheme.line),
+              boxShadow: [
+                BoxShadow(color: Colors.black.withAlpha(10), blurRadius: 8, offset: const Offset(0, 2)),
+              ],
             ),
             child: child,
           ),
@@ -190,17 +199,21 @@ class InfoBanner extends StatelessWidget {
 class EmptyState extends StatelessWidget {
   final IconData icon;
   final String text;
-  const EmptyState(this.icon, this.text, {super.key});
+  final String? image; // illustration file name (assets/images/<name>.png)
+  const EmptyState(this.icon, this.text, {super.key, this.image});
 
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(32),
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.all(28),
         child: Column(mainAxisSize: MainAxisSize.min, children: [
-          Icon(icon, size: 56, color: AppTheme.line),
-          const SizedBox(height: 12),
-          Text(text, textAlign: TextAlign.center, style: const TextStyle(color: AppTheme.inkSoft, fontSize: 15)),
+          if (image != null)
+            FadeSlideIn(child: Illustration(image!, height: 190, fallback: icon))
+          else
+            Icon(icon, size: 56, color: AppTheme.line),
+          const SizedBox(height: 14),
+          Text(text, textAlign: TextAlign.center, style: const TextStyle(color: AppTheme.inkSoft, fontSize: 16, height: 1.4)),
         ]),
       ),
     );

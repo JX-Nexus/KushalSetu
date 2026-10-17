@@ -9,6 +9,7 @@ import '../../services/local_db.dart';
 import '../../services/sync_service.dart';
 import '../../state/app_state.dart';
 import '../../theme/app_theme.dart';
+import '../../widgets/design.dart';
 import '../../widgets/ui.dart';
 import 'checklist_screen.dart';
 
@@ -144,23 +145,64 @@ class _DeclarationScreenState extends State<DeclarationScreen> {
         MaterialPageRoute(builder: (_) => ChecklistScreen(worker: widget.worker, assessmentId: a.id)));
   }
 
-  Widget _settingChip(String key) {
-    return ChoiceChip(
-      label: Text(tr(context, 'setting_$key')),
-      selected: _setting == key,
-      onSelected: (_) => setState(() => _setting = key),
+  Widget _settingTile(String key, IconData icon) {
+    final sel = _setting == key;
+    return SizedBox(
+      width: (MediaQuery.of(context).size.width - 36 - 24) / 4,
+      child: ActionTile(
+        icon: icon,
+        label: tr(context, 'setting_$key'),
+        color: sel ? Colors.white : AppTheme.primary,
+        background: sel ? AppTheme.primary : AppTheme.primarySoft,
+        onTap: () => setState(() => _setting = key),
+      ),
     );
   }
 
   Widget _packCard(QualPack p, {_Candidate? cand, bool top = false}) {
     final lang = curLang(context);
-    return AppCard(
-      border: top ? AppTheme.primary : null,
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+    final icon = iconForTrade('${p.sector} ${p.title.get('en')}');
+    Widget? footer;
+    if (cand != null) {
+      footer = Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Row(children: [
-          Expanded(child: Text(p.title.get(lang), style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w700))),
-          if (top)
-            Pill(
+          Expanded(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(6),
+              child: LinearProgressIndicator(
+                  value: cand.share.clamp(0.0, 1.0), minHeight: 8, backgroundColor: AppTheme.primarySoft, color: AppTheme.accent),
+            ),
+          ),
+          const SizedBox(width: 10),
+          Text('${(cand.share * 100).round()}%', style: const TextStyle(fontWeight: FontWeight.w700)),
+        ]),
+        if (cand.terms.isNotEmpty)
+          Padding(
+            padding: const EdgeInsets.only(top: 8),
+            child: Wrap(spacing: 6, runSpacing: 4, children: [
+              for (final t in cand.terms.take(5)) Pill(t, color: AppTheme.primary, background: AppTheme.primarySoft),
+            ]),
+          ),
+        const SizedBox(height: 12),
+        SizedBox(
+          width: double.infinity,
+          child: FilledButton(
+            style: FilledButton.styleFrom(backgroundColor: top ? AppTheme.accent : AppTheme.primary),
+            onPressed: () => _choose(p.code),
+            child: Text(tr(context, 'select_this')),
+          ),
+        ),
+      ]);
+    }
+    return TradeCard(
+      icon: icon,
+      artCode: p.code,
+      title: p.title.get(lang),
+      subtitle: '${p.sector} • NSQF ${p.nsqfLevel}',
+      highlighted: top,
+      onTap: cand == null ? () => _choose(p.code) : null,
+      trailing: top
+          ? Pill(
               tr(context, _confidence == 'high'
                   ? 'confidence_high'
                   : _confidence == 'medium'
@@ -168,32 +210,19 @@ class _DeclarationScreenState extends State<DeclarationScreen> {
                       : 'confidence_low'),
               color: _confidence == 'low' ? AppTheme.warning : AppTheme.success,
               background: _confidence == 'low' ? AppTheme.warningSoft : AppTheme.successSoft,
-            ),
-        ]),
-        const SizedBox(height: 4),
-        Text('${p.sector} • NSQF ${p.nsqfLevel}', style: const TextStyle(color: AppTheme.inkSoft)),
-        const SizedBox(height: 6),
-        Text(p.description.get(lang), style: const TextStyle(height: 1.35)),
-        if (cand != null) ...[
-          const SizedBox(height: 10),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(6),
-            child: LinearProgressIndicator(
-                value: cand.share.clamp(0.0, 1.0), minHeight: 8, backgroundColor: AppTheme.primarySoft),
-          ),
-          const SizedBox(height: 4),
-          Text('${(cand.share * 100).round()}%', style: const TextStyle(color: AppTheme.inkSoft, fontSize: 12.5)),
-          if (cand.terms.isNotEmpty)
-            Padding(
-              padding: const EdgeInsets.only(top: 6),
-              child: Wrap(spacing: 6, runSpacing: 4, children: [
-                for (final t in cand.terms.take(5))
-                  Pill(t, color: AppTheme.primary, background: AppTheme.primarySoft),
-              ]),
-            ),
-        ],
-        const SizedBox(height: 12),
-        FilledButton(onPressed: () => _choose(p.code), child: Text(tr(context, 'select_this'))),
+            )
+          : (cand == null ? const Icon(Icons.chevron_right, color: AppTheme.inkSoft) : null),
+      footer: footer,
+    );
+  }
+
+  Widget _section(String title, Widget child) {
+    return AppCard(
+      padding: const EdgeInsets.all(16),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Text(title, style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 15.5)),
+        const SizedBox(height: 10),
+        child,
       ]),
     );
   }
@@ -202,63 +231,78 @@ class _DeclarationScreenState extends State<DeclarationScreen> {
   Widget build(BuildContext context) {
     final cat = context.watch<CatalogueService>();
     return Scaffold(
-      appBar: AppBar(title: Text(tr(context, 'declaration_title'))),
-      body: ListView(padding: const EdgeInsets.all(18), children: [
-        Text(tr(context, 'declaration_help'), style: const TextStyle(color: AppTheme.inkSoft, height: 1.4)),
-        const SizedBox(height: 16),
-        Text(tr(context, 'describe_work'), style: const TextStyle(fontWeight: FontWeight.w700)),
-        const SizedBox(height: 8),
-        TextField(
-          controller: _text,
-          minLines: 3,
-          maxLines: 6,
-          maxLength: 1500,
-          decoration: AppTheme.field(hintText: tr(context, 'describe_hint')),
+      body: Column(children: [
+        HeroHeader(
+          title: tr(context, 'declaration_title'),
+          subtitle: tr(context, 'declaration_help'),
+          onBack: () => Navigator.of(context).pop(),
+          art: const Illustration('illus_step1', height: 120, fallback: Icons.edit_note),
         ),
-        const SizedBox(height: 10),
-        Text('${tr(context, 'years_exp')}: ${_years.round()}', style: const TextStyle(fontWeight: FontWeight.w700)),
-        Slider(
-          value: _years,
-          min: 0,
-          max: 40,
-          divisions: 40,
-          label: _years.round().toString(),
-          onChanged: (v) => setState(() => _years = v),
+        Expanded(
+          child: ListView(padding: const EdgeInsets.fromLTRB(16, 16, 16, 28), children: [
+            StepProgressBar(
+              current: _searched ? 2 : 1,
+              total: 2,
+              label: trf(context, 'step_n_of', {'n': _searched ? '2' : '1', 'm': '2'}),
+            ),
+            const SizedBox(height: 12),
+            _section(
+              tr(context, 'describe_work'),
+              TextField(
+                controller: _text,
+                minLines: 3,
+                maxLines: 6,
+                maxLength: 1500,
+                decoration: AppTheme.field(hintText: tr(context, 'describe_hint')),
+              ),
+            ),
+            _section(
+              '${tr(context, 'years_exp')}: ${_years.round()}',
+              Slider(
+                value: _years,
+                min: 0,
+                max: 40,
+                divisions: 40,
+                label: _years.round().toString(),
+                onChanged: (v) => setState(() => _years = v),
+              ),
+            ),
+            _section(
+              tr(context, 'work_setting'),
+              Wrap(spacing: 8, runSpacing: 8, children: [
+                _settingTile('residential', Icons.home),
+                _settingTile('commercial', Icons.storefront),
+                _settingTile('industrial', Icons.factory),
+                _settingTile('site', Icons.construction),
+              ]),
+            ),
+            _section(
+              tr(context, 'tools_used'),
+              TextField(controller: _tools, decoration: AppTheme.field(hintText: tr(context, 'tools_hint'))),
+            ),
+            const SizedBox(height: 10),
+            FilledButton.icon(
+              icon: _busy
+                  ? const SizedBox(width: 18, height: 18, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
+                  : const Icon(Icons.search),
+              label: Text(tr(context, 'find_qualification')),
+              onPressed: _busy ? null : _find,
+            ),
+            if (_searched) ...[
+              SectionTitle(_browseAll ? tr(context, 'choose_trade') : tr(context, 'best_matches')),
+              Text(tr(context, _fromServer ? 'matched_on_server' : 'matched_on_phone'),
+                  style: const TextStyle(color: AppTheme.inkSoft, fontSize: 12.5)),
+              const SizedBox(height: 6),
+              if (!_browseAll)
+                for (var i = 0; i < _candidates.length; i++)
+                  _packCard(cat.byCode(_candidates[i].code)!, cand: _candidates[i], top: i == 0),
+              if (_browseAll)
+                for (final p in cat.packs) _packCard(p),
+              if (!_browseAll)
+                TextButton(onPressed: () => setState(() => _browseAll = true), child: Text(tr(context, 'browse_all'))),
+            ],
+          ]),
         ),
-        Text(tr(context, 'work_setting'), style: const TextStyle(fontWeight: FontWeight.w700)),
-        const SizedBox(height: 8),
-        Wrap(spacing: 8, runSpacing: 4, children: [
-          _settingChip('residential'),
-          _settingChip('commercial'),
-          _settingChip('industrial'),
-          _settingChip('site'),
-        ]),
-        const SizedBox(height: 16),
-        Text(tr(context, 'tools_used'), style: const TextStyle(fontWeight: FontWeight.w700)),
-        const SizedBox(height: 8),
-        TextField(controller: _tools, decoration: AppTheme.field(hintText: tr(context, 'tools_hint'))),
-        const SizedBox(height: 20),
-        FilledButton.icon(
-          icon: _busy
-              ? const SizedBox(width: 18, height: 18, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
-              : const Icon(Icons.search),
-          label: Text(tr(context, 'find_qualification')),
-          onPressed: _busy ? null : _find,
-        ),
-        if (_searched) ...[
-          SectionTitle(tr(context, 'best_matches')),
-          Text(tr(context, _fromServer ? 'matched_on_server' : 'matched_on_phone'),
-              style: const TextStyle(color: AppTheme.inkSoft, fontSize: 12.5)),
-          const SizedBox(height: 6),
-          if (!_browseAll)
-            for (var i = 0; i < _candidates.length; i++)
-              _packCard(cat.byCode(_candidates[i].code)!, cand: _candidates[i], top: i == 0),
-          if (_browseAll)
-            for (final p in cat.packs) _packCard(p),
-          if (!_browseAll)
-            TextButton(onPressed: () => setState(() => _browseAll = true), child: Text(tr(context, 'browse_all'))),
-        ],
-        const SizedBox(height: 24),
       ]),
     );
   }

@@ -7,9 +7,11 @@ import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 import '../../models/models.dart';
+import '../../services/catalogue_service.dart';
 import '../../services/local_db.dart';
 import '../../services/sync_service.dart';
 import '../../theme/app_theme.dart';
+import '../../widgets/design.dart';
 import '../../widgets/ui.dart';
 
 class TaskScreen extends StatefulWidget {
@@ -144,12 +146,18 @@ class _TaskScreenState extends State<TaskScreen> {
     setState(() => _evidence = _evidence.where((x) => x.id != e.id).toList());
   }
 
-  Future<void> _save() async {
+  Future<void> _save({Criterion? next}) async {
     await _persist();
     if (!mounted) return;
     context.read<SyncService>().syncAll(silent: true);
     toast(context, tr(context, 'saved'));
-    Navigator.of(context).pop();
+    if (next != null) {
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (_) => TaskScreen(
+              worker: widget.worker, assessment: widget.assessment, criterion: next, readOnly: widget.readOnly)));
+    } else {
+      Navigator.of(context).pop();
+    }
   }
 
   Widget _evidenceTile(EvidenceRow e) {
@@ -191,93 +199,127 @@ class _TaskScreenState extends State<TaskScreen> {
   Widget build(BuildContext context) {
     final lang = curLang(context);
     final c = widget.criterion;
+    final pack = context.read<CatalogueService>().byCode(widget.assessment.qpCode);
+    final all = pack?.allCriteria ?? <Criterion>[c];
+    var idx = all.indexWhere((x) => x.id == c.id);
+    if (idx < 0) idx = 0;
+    final Criterion? next = idx + 1 < all.length ? all[idx + 1] : null;
+    final ratingKeys = [0, 1, 2, 3];
     return Scaffold(
-      appBar: AppBar(title: Text(c.text.get(lang), maxLines: 2, overflow: TextOverflow.ellipsis, style: const TextStyle(fontSize: 16))),
-      body: !_loaded
-          ? const Center(child: CircularProgressIndicator())
-          : ListView(padding: const EdgeInsets.all(18), children: [
-              if (c.critical)
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 10),
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Pill(tr(context, 'critical'),
-                        color: AppTheme.danger, background: AppTheme.dangerSoft, icon: Icons.health_and_safety),
+      body: Column(children: [
+        HeroHeader(
+          title: c.text.get(lang),
+          titleSize: 19,
+          subtitle: trf(context, 'task_n_of', {'n': '${idx + 1}', 'm': '${all.length}'}),
+          onBack: () => Navigator.of(context).pop(),
+        ),
+        Expanded(
+          child: !_loaded
+              ? const Center(child: CircularProgressIndicator())
+              : ListView(padding: const EdgeInsets.fromLTRB(16, 16, 16, 28), children: [
+                  StepProgressBar(
+                    current: idx + 1,
+                    total: all.length,
+                    label: trf(context, 'task_n_of', {'n': '${idx + 1}', 'm': '${all.length}'}),
                   ),
-                ),
-              AppCard(
-                color: AppTheme.accentSoft,
-                border: AppTheme.accentSoft,
-                child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  const Icon(Icons.help_outline, color: AppTheme.accent),
-                  const SizedBox(width: 10),
-                  Expanded(child: Text(c.task.get(lang), style: const TextStyle(fontSize: 16, height: 1.4))),
+                  const SizedBox(height: 12),
+                  if (widget.readOnly)
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 10),
+                      child: InfoBanner(tr(context, 'read_only'), icon: Icons.lock_outline),
+                    ),
+                  if (c.critical)
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 10),
+                      child: InfoBanner(tr(context, 'safety_first'),
+                          icon: Icons.health_and_safety, color: AppTheme.danger, background: AppTheme.dangerSoft),
+                    ),
+                  AppCard(
+                    color: AppTheme.primarySoft,
+                    border: AppTheme.primarySoft,
+                    padding: const EdgeInsets.all(16),
+                    child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                      const Icon(Icons.help_outline, color: AppTheme.primary),
+                      const SizedBox(width: 10),
+                      Expanded(child: Text(c.task.get(lang), style: const TextStyle(fontSize: 16.5, height: 1.45, color: AppTheme.primaryDark))),
+                    ]),
+                  ),
+                  SectionTitle(tr(context, 'your_answer')),
+                  TextField(
+                    controller: _answer,
+                    readOnly: widget.readOnly,
+                    minLines: 5,
+                    maxLines: 10,
+                    maxLength: 4000,
+                    onChanged: (_) => _changed(),
+                    decoration: AppTheme.field(hintText: tr(context, 'answer_hint')),
+                  ),
+                  SectionTitle(tr(context, 'self_rating')),
+                  for (final i in ratingKeys)
+                    OptionTile(
+                      label: tr(context, 'rating_$i'),
+                      selected: _rating == i,
+                      onTap: widget.readOnly
+                          ? null
+                          : () {
+                              setState(() => _rating = i);
+                              _changed();
+                            },
+                    ),
+                  SectionTitle(tr(context, 'evidence')),
+                  if (c.evidence != 'none')
+                    InfoBanner(tr(context, c.evidence == 'video' ? 'evidence_wanted_video' : 'evidence_wanted_photo'),
+                        icon: c.evidence == 'video' ? Icons.videocam : Icons.photo_camera,
+                        color: AppTheme.warning,
+                        background: AppTheme.warningSoft),
+                  if (_evidence.isEmpty && !widget.readOnly)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 6),
+                      child: Center(child: Illustration('illus_step2', height: 120, fallback: Icons.photo_camera)),
+                    ),
+                  const SizedBox(height: 10),
+                  if (_evidence.isNotEmpty)
+                    SizedBox(
+                        height: 100,
+                        child: ListView(scrollDirection: Axis.horizontal, children: [for (final e in _evidence) _evidenceTile(e)])),
+                  if (!widget.readOnly) ...[
+                    const SizedBox(height: 10),
+                    Row(children: [
+                      Expanded(
+                        child: ActionTile(
+                          icon: Icons.photo_camera,
+                          label: tr(context, 'add_photo'),
+                          onTap: _picking ? null : () => _addEvidence(ImageSource.camera, 'photo'),
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: ActionTile(
+                          icon: Icons.videocam,
+                          label: tr(context, 'add_video'),
+                          onTap: _picking ? null : () => _addEvidence(ImageSource.camera, 'video'),
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: ActionTile(
+                          icon: Icons.photo_library,
+                          label: tr(context, 'from_gallery'),
+                          onTap: _picking ? null : () => _addEvidence(ImageSource.gallery, 'photo'),
+                        ),
+                      ),
+                    ]),
+                    const SizedBox(height: 22),
+                    FilledButton.icon(
+                      style: FilledButton.styleFrom(backgroundColor: AppTheme.accent),
+                      icon: Icon(next == null ? Icons.check : Icons.arrow_forward),
+                      label: Text(tr(context, next == null ? 'save_finish' : 'save_next')),
+                      onPressed: () => _save(next: next),
+                    ),
+                  ],
                 ]),
-              ),
-              const SizedBox(height: 14),
-              Text(tr(context, 'your_answer'), style: const TextStyle(fontWeight: FontWeight.w700)),
-              const SizedBox(height: 8),
-              TextField(
-                controller: _answer,
-                readOnly: widget.readOnly,
-                minLines: 5,
-                maxLines: 10,
-                maxLength: 4000,
-                onChanged: (_) => _changed(),
-                decoration: AppTheme.field(hintText: tr(context, 'answer_hint')),
-              ),
-              const SizedBox(height: 8),
-              Text(tr(context, 'self_rating'), style: const TextStyle(fontWeight: FontWeight.w700)),
-              const SizedBox(height: 8),
-              Wrap(spacing: 8, runSpacing: 6, children: [
-                for (var i = 0; i < 4; i++)
-                  ChoiceChip(
-                    label: Text(tr(context, 'rating_$i')),
-                    selected: _rating == i,
-                    onSelected: widget.readOnly
-                        ? null
-                        : (_) {
-                            setState(() => _rating = i);
-                            _changed();
-                          },
-                  ),
-              ]),
-              SectionTitle(tr(context, 'evidence')),
-              if (c.evidence != 'none')
-                InfoBanner(tr(context, c.evidence == 'video' ? 'evidence_wanted_video' : 'evidence_wanted_photo'),
-                    icon: c.evidence == 'video' ? Icons.videocam : Icons.photo_camera,
-                    color: AppTheme.accent,
-                    background: AppTheme.accentSoft),
-              const SizedBox(height: 10),
-              if (_evidence.isNotEmpty)
-                SizedBox(height: 100, child: ListView(scrollDirection: Axis.horizontal, children: [for (final e in _evidence) _evidenceTile(e)])),
-              if (!widget.readOnly) ...[
-                const SizedBox(height: 10),
-                Wrap(spacing: 10, runSpacing: 8, children: [
-                  OutlinedButton.icon(
-                    style: OutlinedButton.styleFrom(minimumSize: const Size(0, 46)),
-                    icon: const Icon(Icons.photo_camera),
-                    label: Text(tr(context, 'add_photo')),
-                    onPressed: _picking ? null : () => _addEvidence(ImageSource.camera, 'photo'),
-                  ),
-                  OutlinedButton.icon(
-                    style: OutlinedButton.styleFrom(minimumSize: const Size(0, 46)),
-                    icon: const Icon(Icons.videocam),
-                    label: Text(tr(context, 'add_video')),
-                    onPressed: _picking ? null : () => _addEvidence(ImageSource.camera, 'video'),
-                  ),
-                  OutlinedButton.icon(
-                    style: OutlinedButton.styleFrom(minimumSize: const Size(0, 46)),
-                    icon: const Icon(Icons.photo_library),
-                    label: Text(tr(context, 'from_gallery')),
-                    onPressed: _picking ? null : () => _addEvidence(ImageSource.gallery, 'photo'),
-                  ),
-                ]),
-                const SizedBox(height: 22),
-                FilledButton(onPressed: _save, child: Text(tr(context, 'save'))),
-              ],
-              const SizedBox(height: 24),
-            ]),
+        ),
+      ]),
     );
   }
 }

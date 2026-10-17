@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../../services/api_service.dart';
 import '../../state/app_state.dart';
 import '../../theme/app_theme.dart';
+import '../../widgets/design.dart';
 import '../../widgets/ui.dart';
 
 /// Assessor workspace: evidence + AI hints + anchored 0-3 rubric -> profile -> sign-off.
@@ -279,20 +280,20 @@ class _AssessorReviewScreenState extends State<AssessorReviewScreen> {
       if (a['score'] == cur) desc = (a['descriptor'] ?? '').toString();
     }
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Wrap(spacing: 8, runSpacing: 6, children: [
+      const Text('Your score', style: TextStyle(fontWeight: FontWeight.w800, fontSize: 14.5)),
+      const SizedBox(height: 8),
+      Row(children: [
         for (final a in anchors)
-          ChoiceChip(
-            label: Text('${a['score']} ${a['label']}', style: const TextStyle(fontSize: 12.5)),
-            selected: cur == a['score'],
-            selectedColor: AppTheme.scoreColor((a['score'] as num).toInt()).withAlpha(60),
-            onSelected: (_) => setState(() {
-              _scores[cid] = (a['score'] as num).toInt();
-              _unsaved = true;
-            }),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 3),
+              child: _scoreTile(cid, (a['score'] as num).toInt(), (a['label'] ?? '').toString(), cur == a['score']),
+            ),
           ),
       ]),
-      if (desc.isNotEmpty) Padding(padding: const EdgeInsets.only(top: 6), child: Text(desc, style: const TextStyle(color: AppTheme.inkSoft, fontSize: 12.5))),
-      const SizedBox(height: 8),
+      if (desc.isNotEmpty)
+        Padding(padding: const EdgeInsets.only(top: 8), child: Text(desc, style: const TextStyle(color: AppTheme.inkSoft, fontSize: 12.5))),
+      const SizedBox(height: 10),
       TextField(
         controller: _comments.putIfAbsent(cid, () => TextEditingController()),
         onChanged: (_) => _unsaved = true,
@@ -301,6 +302,41 @@ class _AssessorReviewScreenState extends State<AssessorReviewScreen> {
         decoration: AppTheme.field(hintText: 'Comment (optional)', isDense: true),
       ),
     ]);
+  }
+
+  Widget _scoreTile(String cid, int score, String label, bool selected) {
+    final color = AppTheme.scoreColor(score);
+    return Semantics(
+      button: true,
+      selected: selected,
+      label: 'Score $score $label',
+      child: Material(
+        color: selected ? color : AppTheme.surface,
+        borderRadius: BorderRadius.circular(12),
+        child: InkWell(
+          borderRadius: BorderRadius.circular(12),
+          onTap: () => setState(() {
+            _scores[cid] = score;
+            _unsaved = true;
+          }),
+          child: Container(
+            height: 62,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: selected ? color : AppTheme.line, width: selected ? 2 : 1),
+            ),
+            child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+              Text('$score',
+                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.w800, color: selected ? Colors.white : color)),
+              Text(label,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(fontSize: 9.5, color: selected ? Colors.white : AppTheme.inkSoft)),
+            ]),
+          ),
+        ),
+      ),
+    );
   }
 
   Widget _profileCard() {
@@ -324,6 +360,12 @@ class _AssessorReviewScreenState extends State<AssessorReviewScreen> {
         const SizedBox(height: 4),
         Text((rec['label'] ?? '').toString(), style: const TextStyle(fontWeight: FontWeight.w600)),
         const SizedBox(height: 10),
+        if (((p['nos'] ?? []) as List).length >= 3)
+          RadarChart(
+            height: 230,
+            labels: [for (final n in (p['nos'] as List)) n['title'].toString()],
+            values: [for (final n in (p['nos'] as List)) ((n['score_pct'] ?? 0) as num).toDouble() / 100],
+          ),
         for (final n in ((p['nos'] ?? []) as List))
           Padding(
             padding: const EdgeInsets.only(bottom: 4),
@@ -344,18 +386,18 @@ class _AssessorReviewScreenState extends State<AssessorReviewScreen> {
   @override
   Widget build(BuildContext context) {
     final d = _d;
+    final scored = _scores.length;
+    final totalCriteria = _criteria().length;
     return Scaffold(
-      appBar: AppBar(
-        title: Text(d == null ? 'Review' : (d['worker']?['name'] ?? 'Review').toString()),
-        actions: [
-          IconButton(tooltip: 'PDF report', icon: const Icon(Icons.picture_as_pdf), onPressed: d == null ? null : _pdf),
-        ],
-      ),
       bottomNavigationBar: d == null
           ? null
           : SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(16, 8, 16, 12),
+              child: Container(
+                padding: const EdgeInsets.fromLTRB(16, 10, 16, 12),
+                decoration: BoxDecoration(
+                  color: AppTheme.surface,
+                  boxShadow: [BoxShadow(color: Colors.black.withAlpha(18), blurRadius: 10, offset: const Offset(0, -2))],
+                ),
                 child: Row(children: [
                   Expanded(
                     child: OutlinedButton.icon(
@@ -367,6 +409,7 @@ class _AssessorReviewScreenState extends State<AssessorReviewScreen> {
                   const SizedBox(width: 10),
                   Expanded(
                     child: FilledButton.icon(
+                      style: FilledButton.styleFrom(backgroundColor: AppTheme.accent),
                       icon: const Icon(Icons.draw),
                       label: const Text('Sign off'),
                       onPressed: _saving ? null : _signOff,
@@ -375,15 +418,37 @@ class _AssessorReviewScreenState extends State<AssessorReviewScreen> {
                 ]),
               ),
             ),
-      body: _loading
-          ? const Center(child: CircularProgressIndicator())
-          : _error != null
-              ? Center(child: Padding(padding: const EdgeInsets.all(24), child: Column(mainAxisSize: MainAxisSize.min, children: [
-                  InfoBanner(_error!, icon: Icons.error_outline, color: AppTheme.danger, background: AppTheme.dangerSoft),
-                  const SizedBox(height: 12),
-                  FilledButton(onPressed: _load, child: const Text('Retry')),
-                ])))
-              : _content(d!),
+      body: Column(children: [
+        HeroHeader(
+          title: d == null ? 'Review' : (d['worker']?['name'] ?? 'Review').toString(),
+          subtitle: d == null ? null : '$scored of $totalCriteria criteria scored',
+          titleSize: 22,
+          onBack: () => Navigator.of(context).pop(),
+          actions: [
+            IconButton(
+              tooltip: 'PDF report',
+              icon: const Icon(Icons.picture_as_pdf, color: Colors.white),
+              onPressed: d == null ? null : _pdf,
+            ),
+          ],
+        ),
+        Expanded(
+          child: _loading
+              ? const Center(child: CircularProgressIndicator())
+              : _error != null
+                  ? Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(24),
+                        child: Column(mainAxisSize: MainAxisSize.min, children: [
+                          InfoBanner(_error!, icon: Icons.error_outline, color: AppTheme.danger, background: AppTheme.dangerSoft),
+                          const SizedBox(height: 12),
+                          FilledButton(onPressed: _load, child: const Text('Retry')),
+                        ]),
+                      ),
+                    )
+                  : _content(d!),
+        ),
+      ]),
     );
   }
 

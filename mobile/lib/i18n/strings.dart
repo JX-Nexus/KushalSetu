@@ -107,7 +107,41 @@ class Strings {
     'server_url': {'en': 'Server address', 'hi': 'सर्वर पता', 'mr': 'सर्व्हर पत्ता'},
     'test_connection': {'en': 'Test connection', 'hi': 'कनेक्शन जाँचें', 'mr': 'कनेक्शन तपासा'},
     'delete': {'en': 'Delete', 'hi': 'हटाएँ', 'mr': 'हटवा'},
+    'namaste': {'en': 'Namaste', 'hi': 'नमस्ते', 'mr': 'नमस्कार'},
+    'home_sub': {'en': 'Show your skills. An assessor will review your work.', 'hi': 'अपने कौशल दिखाइए। मूल्यांकनकर्ता आपके काम की समीक्षा करेंगे।', 'mr': 'तुमची कौशल्ये दाखवा. मूल्यांकनकर्ता तुमच्या कामाचा आढावा घेतील.'},
+    'continue_assessment': {'en': 'Continue assessment', 'hi': 'मूल्यांकन जारी रखें', 'mr': 'मूल्यांकन सुरू ठेवा'},
+    'how_it_works': {'en': 'How it works', 'hi': 'यह कैसे काम करता है', 'mr': 'हे कसे चालते'},
+    'hiw_1': {'en': 'Tell us about your work. We find the matching trade.', 'hi': 'अपने काम के बारे में बताइए। हम सही ट्रेड ढूँढेंगे।', 'mr': 'तुमच्या कामाबद्दल सांगा. आम्ही योग्य ट्रेड शोधू.'},
+    'hiw_2': {'en': 'Answer short tasks and add photos or video of your work.', 'hi': 'छोटे कार्यों के उत्तर दें और अपने काम की फ़ोटो या वीडियो जोड़ें।', 'mr': 'छोटी कार्ये पूर्ण करा आणि कामाचे फोटो किंवा व्हिडिओ जोडा.'},
+    'hiw_3': {'en': 'A human assessor reviews and gives the final decision.', 'hi': 'मूल्यांकनकर्ता समीक्षा करके अंतिम निर्णय देते हैं।', 'mr': 'मूल्यांकनकर्ता तपासून अंतिम निर्णय देतात.'},
+    'step_n_of': {'en': 'Step {n} of {m}', 'hi': 'चरण {n} / {m}', 'mr': 'टप्पा {n} / {m}'},
+    'task_n_of': {'en': 'Task {n} of {m}', 'hi': 'कार्य {n} / {m}', 'mr': 'कार्य {n} / {m}'},
+    'save_next': {'en': 'Save and next', 'hi': 'सहेजें और आगे', 'mr': 'जतन करा आणि पुढे'},
+    'save_finish': {'en': 'Save and finish', 'hi': 'सहेजें और पूरा करें', 'mr': 'जतन करा आणि पूर्ण करा'},
+    'evidence_missing': {'en': 'tasks still need a photo or video', 'hi': 'कार्यों के लिए फ़ोटो या वीडियो बाकी है', 'mr': 'कार्यांसाठी फोटो किंवा व्हिडिओ बाकी आहे'},
+    'overall_progress': {'en': 'Overall progress', 'hi': 'कुल प्रगति', 'mr': 'एकूण प्रगती'},
+    'competency_overview': {'en': 'Your competency overview', 'hi': 'आपकी दक्षता का सारांश', 'mr': 'तुमच्या क्षमतेचा आढावा'},
+    'areas_to_improve': {'en': 'Areas to improve', 'hi': 'सुधार के क्षेत्र', 'mr': 'सुधारणेची क्षेत्रे'},
+    'final_by_assessor': {'en': 'Final decision made by your human assessor.', 'hi': 'अंतिम निर्णय आपके मूल्यांकनकर्ता ने लिया है।', 'mr': 'अंतिम निर्णय तुमच्या मूल्यांकनकर्त्याने घेतला आहे.'},
+    'choose_trade': {'en': 'Choose your trade', 'hi': 'अपना ट्रेड चुनें', 'mr': 'तुमचा ट्रेड निवडा'},
+    'safety_first': {'en': 'Safety comes first', 'hi': 'सुरक्षा सबसे पहले', 'mr': 'सुरक्षा प्रथम'},
+    'tap_to_open': {'en': 'Tap a task to open it', 'hi': 'खोलने के लिए कार्य दबाएँ', 'mr': 'उघडण्यासाठी कार्य दाबा'},
+    'no_answer_yet': {'en': 'Not answered yet', 'hi': 'अभी उत्तर नहीं दिया', 'mr': 'अजून उत्तर दिले नाही'},
+    'attached': {'en': 'attached', 'hi': 'जुड़ा', 'mr': 'जोडले'},
+    'synced_to_server': {'en': 'Sent', 'hi': 'भेजा गया', 'mr': 'पाठवले'},
+    'waiting_to_send': {'en': 'Waiting to send', 'hi': 'भेजना बाकी', 'mr': 'पाठवणे बाकी'},
+    'view_result': {'en': 'View result', 'hi': 'परिणाम देखें', 'mr': 'निकाल पहा'},
+    'read_only': {'en': 'You can view this task but not change it now.', 'hi': 'आप यह कार्य देख सकते हैं, अभी बदल नहीं सकते।', 'mr': 'तुम्ही हे कार्य पाहू शकता, आता बदलू शकत नाही.'},
   };
+
+  /// Translation with {n}/{m}-style placeholders.
+  static String f(String lang, String key, Map<String, String> args) {
+    var out = t(lang, key);
+    args.forEach((k, v) {
+      out = out.replaceAll('{$k}', v);
+    });
+    return out;
+  }
 
   static String t(String lang, String key) {
     final m = _t[key];

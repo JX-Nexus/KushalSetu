@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../../services/api_service.dart';
 import '../../state/app_state.dart';
 import '../../theme/app_theme.dart';
+import '../../widgets/design.dart';
 import '../../widgets/ui.dart';
 import 'agreement_screen.dart';
 import 'assessor_login_screen.dart';
@@ -58,31 +59,42 @@ class _AssessorQueueScreenState extends State<AssessorQueueScreen> {
     }
   }
 
+  int _count(String st) => _items.where((i) => i['status'] == st).length;
+
   @override
   Widget build(BuildContext context) {
     final app = context.watch<AppState>();
     final shown = _filter == 'all' ? _items : _items.where((i) => i['status'] == _filter).toList();
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Review queue'),
-        actions: [
-          IconButton(
-            tooltip: 'Agreement statistics',
-            icon: const Icon(Icons.insights),
-            onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => const AgreementScreen())),
-          ),
-          IconButton(
-            tooltip: 'Sign out',
-            icon: const Icon(Icons.logout),
-            onPressed: () async {
-              await app.assessorLogout();
-              if (!mounted) return;
-              Navigator.of(context).pop();
-            },
-          ),
-        ],
-      ),
       body: Column(children: [
+        HeroHeader(
+          title: 'Review queue',
+          subtitle: app.assessorName.isEmpty ? null : 'Signed in as ${app.assessorName}',
+          onBack: () => Navigator.of(context).pop(),
+          actions: [
+            IconButton(
+              tooltip: 'Agreement statistics',
+              icon: const Icon(Icons.insights, color: Colors.white),
+              onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => const AgreementScreen())),
+            ),
+            IconButton(
+              tooltip: 'Sign out',
+              icon: const Icon(Icons.logout, color: Colors.white),
+              onPressed: () async {
+                await app.assessorLogout();
+                if (!mounted) return;
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+          child: Row(children: [
+            Expanded(child: StatTile(value: '${_count('submitted')}', caption: 'Waiting', color: AppTheme.warning)),
+            const SizedBox(width: 8),
+            Expanded(child: StatTile(value: '${_count('under_review')}', caption: 'Reviewing', color: AppTheme.info)),
+            const SizedBox(width: 8),
+            Expanded(child: StatTile(value: '${_count('signed_off')}', caption: 'Signed off', color: AppTheme.success)),
+          ]),
+        ),
         SizedBox(
           height: 56,
           child: ListView(
@@ -109,6 +121,8 @@ class _AssessorQueueScreenState extends State<AssessorQueueScreen> {
                       child: Padding(
                         padding: const EdgeInsets.all(24),
                         child: Column(mainAxisSize: MainAxisSize.min, children: [
+                          const Illustration('illus_offline', height: 140, fallback: Icons.cloud_off),
+                          const SizedBox(height: 10),
                           InfoBanner(_error!, icon: Icons.cloud_off, color: AppTheme.warning, background: AppTheme.warningSoft),
                           const SizedBox(height: 14),
                           FilledButton(onPressed: _load, child: const Text('Retry')),
@@ -116,7 +130,7 @@ class _AssessorQueueScreenState extends State<AssessorQueueScreen> {
                       ),
                     )
                   : shown.isEmpty
-                      ? const EmptyState(Icons.inbox_outlined, 'Nothing here yet. Submitted assessments appear after workers sync.')
+                      ? const EmptyState(Icons.inbox_outlined, 'Nothing here yet. Submitted assessments appear after workers sync.', image: 'illus_queue_empty')
                       : RefreshIndicator(
                           onRefresh: _load,
                           child: ListView.builder(
@@ -125,6 +139,7 @@ class _AssessorQueueScreenState extends State<AssessorQueueScreen> {
                             itemBuilder: (ctx, i) {
                               final it = shown[i];
                               final total = (it['total_criteria'] ?? 0) as int;
+                              final name = it['worker_name'].toString();
                               return AppCard(
                                 onTap: () async {
                                   await Navigator.of(context).push(MaterialPageRoute(
@@ -133,23 +148,30 @@ class _AssessorQueueScreenState extends State<AssessorQueueScreen> {
                                 },
                                 child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                                   Row(children: [
+                                    CircleAvatar(
+                                      radius: 22,
+                                      backgroundColor: AppTheme.primarySoft,
+                                      child: Text(name.isEmpty ? '?' : name.substring(0, 1).toUpperCase(),
+                                          style: const TextStyle(color: AppTheme.primary, fontWeight: FontWeight.w800)),
+                                    ),
+                                    const SizedBox(width: 12),
                                     Expanded(
-                                      child: Text(it['worker_name'].toString(),
-                                          style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w700)),
+                                      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                                        Text(name, style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w700)),
+                                        Text((it['qp_title'] ?? 'No pack selected').toString(),
+                                            style: const TextStyle(color: AppTheme.inkSoft, fontSize: 13)),
+                                      ]),
                                     ),
                                     statusPill(context, it['status'].toString()),
                                   ]),
-                                  const SizedBox(height: 4),
-                                  Text((it['qp_title'] ?? 'No pack selected').toString(),
-                                      style: const TextStyle(color: AppTheme.inkSoft)),
-                                  const SizedBox(height: 8),
+                                  const SizedBox(height: 10),
                                   Wrap(spacing: 8, runSpacing: 4, children: [
                                     Pill('${it['answered']}/$total answered',
                                         color: AppTheme.primary, background: AppTheme.primarySoft, icon: Icons.edit_note),
                                     Pill('${it['evidence_count']} evidence',
                                         color: AppTheme.inkSoft, background: const Color(0xFFEDEAE2), icon: Icons.photo_library),
                                     Pill('you scored ${it['scored_by_me']}/$total',
-                                        color: AppTheme.info, background: AppTheme.infoSoft, icon: Icons.rule),
+                                        color: AppTheme.accent, background: AppTheme.accentSoft, icon: Icons.rule),
                                   ]),
                                 ]),
                               );

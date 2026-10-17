@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../../services/api_service.dart';
 import '../../state/app_state.dart';
 import '../../theme/app_theme.dart';
+import '../../widgets/design.dart';
 import '../../widgets/ui.dart';
 
 /// Inter-assessor agreement: assisted (rubric + AI hints) vs unassisted (blind) scoring.
@@ -75,8 +76,13 @@ class _AgreementScreenState extends State<AgreementScreen> {
   Widget build(BuildContext context) {
     final d = _d;
     return Scaffold(
-      appBar: AppBar(title: const Text('Scoring consistency')),
-      body: _loading
+      body: Column(children: [
+        HeroHeader(
+          title: 'Scoring consistency',
+          subtitle: 'Do assessors agree more when they use the rubric aids?',
+          onBack: () => Navigator.of(context).pop(),
+        ),
+        Expanded(child: _loading
           ? const Center(child: CircularProgressIndicator())
           : _error != null
               ? Center(child: Padding(padding: const EdgeInsets.all(24), child: InfoBanner(_error!, icon: Icons.error_outline, color: AppTheme.danger, background: AppTheme.dangerSoft)))
@@ -111,7 +117,8 @@ class _AgreementScreenState extends State<AgreementScreen> {
                       ),
                     const SizedBox(height: 20),
                   ]),
-                ),
+                )),
+      ]),
     );
   }
 }

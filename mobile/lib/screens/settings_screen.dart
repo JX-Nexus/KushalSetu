@@ -4,6 +4,7 @@ import '../services/catalogue_service.dart';
 import '../services/sync_service.dart';
 import '../state/app_state.dart';
 import '../theme/app_theme.dart';
+import '../widgets/design.dart';
 import '../widgets/ui.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -71,8 +72,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget build(BuildContext context) {
     final llm = _ai?['llm'] as Map?;
     return Scaffold(
-      appBar: AppBar(title: Text(tr(context, 'settings'))),
-      body: ListView(padding: const EdgeInsets.all(18), children: [
+      body: Column(children: [
+        HeroHeader(title: tr(context, 'settings'), onBack: () => Navigator.of(context).pop()),
+        Expanded(child: ListView(padding: const EdgeInsets.all(18), children: [
         Text(tr(context, 'server_url'), style: const TextStyle(fontWeight: FontWeight.w700)),
         const SizedBox(height: 8),
         TextField(
@@ -124,6 +126,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             child: Text('${c.packs.length} qualification packs • version ${c.version.isEmpty ? 'bundled' : c.version}'),
           ),
         ),
+      ])),
       ]),
     );
   }

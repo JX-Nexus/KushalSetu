@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../../services/api_service.dart';
 import '../../state/app_state.dart';
 import '../../theme/app_theme.dart';
+import '../../widgets/design.dart';
 import '../../widgets/ui.dart';
 import '../settings_screen.dart';
 import 'assessor_queue_screen.dart';
@@ -52,48 +53,64 @@ class _AssessorLoginScreenState extends State<AssessorLoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Assessor sign-in')),
-      body: ListView(padding: const EdgeInsets.all(22), children: [
-        const SizedBox(height: 12),
-        const Icon(Icons.fact_check, size: 56, color: AppTheme.primary),
-        const SizedBox(height: 16),
-        const Text('Review evidence, score on the standard rubric and sign off.',
-            textAlign: TextAlign.center, style: TextStyle(color: AppTheme.inkSoft, fontSize: 15)),
-        const SizedBox(height: 24),
-        TextField(
-          controller: _user,
-          autocorrect: false,
-          decoration: AppTheme.field(labelText: 'Username', prefixIcon: Icon(Icons.person)),
+      body: Column(children: [
+        HeroHeader(
+          title: 'Assessor sign-in',
+          subtitle: 'Review evidence, score on the standard rubric and sign off.',
+          onBack: () => Navigator.of(context).pop(),
         ),
-        const SizedBox(height: 14),
-        TextField(
-          controller: _pass,
-          obscureText: _hide,
-          onSubmitted: (_) => _login(),
-          decoration: AppTheme.field(
-            labelText: 'Password',
-            prefixIcon: const Icon(Icons.lock),
-            suffixIcon: IconButton(
-              icon: Icon(_hide ? Icons.visibility : Icons.visibility_off),
-              onPressed: () => setState(() => _hide = !_hide),
+        Expanded(
+          child: ListView(padding: const EdgeInsets.all(22), children: [
+            const FadeSlideIn(child: Center(child: Illustration('illus_assessor', height: 150, fallback: Icons.fact_check))),
+            const SizedBox(height: 8),
+            AppCard(
+              padding: const EdgeInsets.all(18),
+              child: Column(children: [
+                TextField(
+                  controller: _user,
+                  autocorrect: false,
+                  decoration: AppTheme.field(labelText: 'Username', prefixIcon: const Icon(Icons.person)),
+                ),
+                const SizedBox(height: 14),
+                TextField(
+                  controller: _pass,
+                  obscureText: _hide,
+                  onSubmitted: (_) => _login(),
+                  decoration: AppTheme.field(
+                    labelText: 'Password',
+                    prefixIcon: const Icon(Icons.lock),
+                    suffixIcon: IconButton(
+                      tooltip: _hide ? 'Show password' : 'Hide password',
+                      icon: Icon(_hide ? Icons.visibility : Icons.visibility_off),
+                      onPressed: () => setState(() => _hide = !_hide),
+                    ),
+                  ),
+                ),
+                if (_error != null) ...[
+                  const SizedBox(height: 14),
+                  InfoBanner(_error!, icon: Icons.error_outline, color: AppTheme.danger, background: AppTheme.dangerSoft),
+                ],
+                const SizedBox(height: 18),
+                SizedBox(
+                  width: double.infinity,
+                  child: FilledButton(
+                    onPressed: _busy ? null : _login,
+                    child: _busy
+                        ? const SizedBox(width: 22, height: 22, child: CircularProgressIndicator(strokeWidth: 2.4, color: Colors.white))
+                        : const Text('Sign in'),
+                  ),
+                ),
+              ]),
             ),
-          ),
-        ),
-        if (_error != null) ...[
-          const SizedBox(height: 14),
-          InfoBanner(_error!, icon: Icons.error_outline, color: AppTheme.danger, background: AppTheme.dangerSoft),
-        ],
-        const SizedBox(height: 20),
-        FilledButton(
-          onPressed: _busy ? null : _login,
-          child: _busy
-              ? const SizedBox(width: 22, height: 22, child: CircularProgressIndicator(strokeWidth: 2.4, color: Colors.white))
-              : const Text('Sign in'),
-        ),
-        TextButton.icon(
-          icon: const Icon(Icons.settings),
-          label: const Text('Server settings'),
-          onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => const SettingsScreen())),
+            const SizedBox(height: 8),
+            TextButton.icon(
+              icon: const Icon(Icons.settings),
+              label: const Text('Server settings'),
+              onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => const SettingsScreen())),
+            ),
+            const SizedBox(height: 6),
+            const InfoBanner('The AI only suggests. You make every score and the final decision.', icon: Icons.shield_outlined),
+          ]),
         ),
       ]),
     );

@@ -6,6 +6,7 @@ import '../../services/local_db.dart';
 import '../../services/sync_service.dart';
 import '../../state/app_state.dart';
 import '../../theme/app_theme.dart';
+import '../../widgets/design.dart';
 import '../../widgets/ui.dart';
 import 'worker_assessments_screen.dart';
 
@@ -46,10 +47,6 @@ class _WorkerHomeScreenState extends State<WorkerHomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(tr(context, 'my_workers')),
-        actions: const [Padding(padding: EdgeInsets.only(right: 12), child: ConnectionChip())],
-      ),
       floatingActionButton: FloatingActionButton.extended(
         backgroundColor: AppTheme.accent,
         foregroundColor: Colors.white,
@@ -57,65 +54,75 @@ class _WorkerHomeScreenState extends State<WorkerHomeScreen> {
         label: Text(tr(context, 'register_worker')),
         onPressed: _add,
       ),
-      body: _loading
-          ? const Center(child: CircularProgressIndicator())
-          : _workers.isEmpty
-              ? EmptyState(Icons.groups_2_outlined, tr(context, 'no_workers'))
-              : RefreshIndicator(
-                  onRefresh: () async {
-                    await context.read<SyncService>().syncAll();
-                    await _load();
-                  },
-                  child: ListView.builder(
-                    padding: const EdgeInsets.fromLTRB(16, 12, 16, 96),
-                    itemCount: _workers.length,
-                    itemBuilder: (ctx, i) {
-                      final w = _workers[i];
-                      return AppCard(
-                        onTap: () async {
-                          await Navigator.of(context)
-                              .push(MaterialPageRoute(builder: (_) => WorkerAssessmentsScreen(worker: w)));
-                          _load();
-                        },
-                        child: Row(children: [
-                          CircleAvatar(
-                            radius: 24,
-                            backgroundColor: AppTheme.primarySoft,
-                            child: Text(w.name.isEmpty ? '?' : w.name.substring(0, 1).toUpperCase(),
-                                style: const TextStyle(
-                                    color: AppTheme.primary, fontWeight: FontWeight.w800, fontSize: 18)),
-                          ),
-                          const SizedBox(width: 14),
-                          Expanded(
-                            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                              Text(w.name, style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w700)),
-                              const SizedBox(height: 2),
-                              Text(
-                                  [if (w.phone.isNotEmpty) w.phone, if (w.village.isNotEmpty) w.village]
-                                      .join(' • '),
-                                  style: const TextStyle(color: AppTheme.inkSoft)),
-                            ]),
-                          ),
-                          PopupMenuButton<String>(
-                            onSelected: (v) async {
-                              if (v == 'delete') {
-                                final ok = await confirm(
-                                    context, '${tr(context, 'delete')} ${w.name}?', yes: tr(context, 'delete'));
-                                if (ok) {
-                                  await context.read<LocalDb>().deleteWorker(w.id);
-                                  _load();
-                                }
-                              }
+      body: Column(children: [
+        HeroHeader(
+          title: tr(context, 'my_workers'),
+          subtitle: tr(context, 'home_sub'),
+          onBack: () => Navigator.of(context).pop(),
+          actions: const [Padding(padding: EdgeInsets.only(right: 8), child: ConnectionChip())],
+        ),
+        Expanded(
+          child: _loading
+              ? const Center(child: CircularProgressIndicator())
+              : _workers.isEmpty
+                  ? EmptyState(Icons.groups_2_outlined, tr(context, 'no_workers'), image: 'illus_empty_workers')
+                  : RefreshIndicator(
+                      onRefresh: () async {
+                        await context.read<SyncService>().syncAll();
+                        await _load();
+                      },
+                      child: ListView.builder(
+                        padding: const EdgeInsets.fromLTRB(16, 14, 16, 96),
+                        itemCount: _workers.length,
+                        itemBuilder: (ctx, i) {
+                          final w = _workers[i];
+                          return AppCard(
+                            onTap: () async {
+                              await Navigator.of(context)
+                                  .push(MaterialPageRoute(builder: (_) => WorkerAssessmentsScreen(worker: w)));
+                              _load();
                             },
-                            itemBuilder: (_) => [
-                              PopupMenuItem<String>(value: 'delete', child: Text(tr(context, 'delete'))),
-                            ],
-                          ),
-                        ]),
-                      );
-                    },
-                  ),
-                ),
+                            child: Row(children: [
+                              CircleAvatar(
+                                radius: 26,
+                                backgroundColor: AppTheme.primarySoft,
+                                child: Text(w.name.isEmpty ? '?' : w.name.substring(0, 1).toUpperCase(),
+                                    style: const TextStyle(
+                                        color: AppTheme.primary, fontWeight: FontWeight.w800, fontSize: 20)),
+                              ),
+                              const SizedBox(width: 14),
+                              Expanded(
+                                child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                                  Text(w.name, style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w700)),
+                                  const SizedBox(height: 2),
+                                  Text(
+                                      [if (w.phone.isNotEmpty) w.phone, if (w.village.isNotEmpty) w.village]
+                                          .join(' • '),
+                                      style: const TextStyle(color: AppTheme.inkSoft)),
+                                ]),
+                              ),
+                              PopupMenuButton<String>(
+                                onSelected: (v) async {
+                                  if (v == 'delete') {
+                                    final ok = await confirm(
+                                        context, '${tr(context, 'delete')} ${w.name}?', yes: tr(context, 'delete'));
+                                    if (ok) {
+                                      await context.read<LocalDb>().deleteWorker(w.id);
+                                      _load();
+                                    }
+                                  }
+                                },
+                                itemBuilder: (_) => [
+                                  PopupMenuItem<String>(value: 'delete', child: Text(tr(context, 'delete'))),
+                                ],
+                              ),
+                            ]),
+                          );
+                        },
+                      ),
+                    ),
+        ),
+      ]),
     );
   }
 }

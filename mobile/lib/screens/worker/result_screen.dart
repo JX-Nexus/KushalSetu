@@ -5,6 +5,7 @@ import '../../models/models.dart';
 import '../../services/api_service.dart';
 import '../../state/app_state.dart';
 import '../../theme/app_theme.dart';
+import '../../widgets/design.dart';
 import '../../widgets/ui.dart';
 
 /// Shows the signed-off result. Only exists after a human assessor has signed off.
@@ -62,21 +63,31 @@ class _ResultScreenState extends State<ResultScreen> {
   Widget build(BuildContext context) {
     final lang = curLang(context);
     return Scaffold(
-      appBar: AppBar(title: Text(tr(context, 'result_title'))),
-      body: _loading
-          ? const Center(child: CircularProgressIndicator())
-          : _error != null
-              ? Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(24),
-                    child: Column(mainAxisSize: MainAxisSize.min, children: [
-                      InfoBanner(_error!, icon: Icons.cloud_off, color: AppTheme.warning, background: AppTheme.warningSoft),
-                      const SizedBox(height: 16),
-                      FilledButton(onPressed: _load, child: Text(tr(context, 'retry'))),
-                    ]),
-                  ),
-                )
-              : _body(lang),
+      body: Column(children: [
+        HeroHeader(
+          title: tr(context, 'result_title'),
+          subtitle: tr(context, 'final_by_assessor'),
+          onBack: () => Navigator.of(context).pop(),
+        ),
+        Expanded(
+          child: _loading
+              ? const Center(child: CircularProgressIndicator())
+              : _error != null
+                  ? Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(24),
+                        child: Column(mainAxisSize: MainAxisSize.min, children: [
+                          const Illustration('illus_offline', height: 150, fallback: Icons.cloud_off),
+                          const SizedBox(height: 10),
+                          InfoBanner(_error!, icon: Icons.cloud_off, color: AppTheme.warning, background: AppTheme.warningSoft),
+                          const SizedBox(height: 16),
+                          FilledButton(onPressed: _load, child: Text(tr(context, 'retry'))),
+                        ]),
+                      ),
+                    )
+                  : _body(lang),
+        ),
+      ]),
     );
   }
 
@@ -85,33 +96,54 @@ class _ResultScreenState extends State<ResultScreen> {
     final result = d['result'] as Map?;
     final profile = d['profile'] as Map?;
     if (result == null || profile == null) {
-      return EmptyState(Icons.hourglass_top, tr(context, 'status_submitted'));
+      return EmptyState(Icons.hourglass_top, tr(context, 'status_submitted'), image: 'illus_waiting');
     }
     final decision = result['decision'].toString();
     final key = decision == 'certify' ? 'decision_certify' : decision == 'partial' ? 'decision_partial' : 'decision_not_yet';
     final good = decision == 'certify';
     final nos = (profile['nos'] as List?) ?? [];
     final gaps = (profile['gaps'] as List?) ?? [];
-    return ListView(padding: const EdgeInsets.all(18), children: [
-      Container(
-        padding: const EdgeInsets.all(20),
-        decoration: BoxDecoration(
-          color: good ? AppTheme.successSoft : AppTheme.warningSoft,
-          borderRadius: BorderRadius.circular(20),
+    final overall = ((profile['overall_pct'] ?? 0) as num).toDouble();
+    final labels = [for (final n in nos) n['title'].toString()];
+    final values = [for (final n in nos) ((n['score_pct'] ?? 0) as num).toDouble() / 100];
+    return ListView(padding: const EdgeInsets.fromLTRB(16, 16, 16, 28), children: [
+      FadeSlideIn(
+        child: Center(
+          child: Illustration(
+            decision == 'certify' ? 'illus_result_good' : decision == 'partial' ? 'illus_result_partial' : 'illus_result_notyet',
+            height: 170,
+            fallback: Icons.verified,
+          ),
         ),
-        child: Column(children: [
-          Icon(good ? Icons.verified : Icons.trending_up, size: 52, color: good ? AppTheme.success : AppTheme.warning),
-          const SizedBox(height: 10),
-          Text(tr(context, key),
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800, color: good ? AppTheme.success : AppTheme.warning)),
-          const SizedBox(height: 6),
-          Text('${profile['overall_pct']}%', style: const TextStyle(fontSize: 34, fontWeight: FontWeight.w800)),
-          Text('${profile['qp_title']} • NSQF ${profile['nsqf_level']}', textAlign: TextAlign.center),
+      ),
+      AppCard(
+        color: good ? AppTheme.successSoft : AppTheme.warningSoft,
+        border: good ? AppTheme.successSoft : AppTheme.warningSoft,
+        padding: const EdgeInsets.all(18),
+        child: Row(children: [
+          ProgressRing(
+            value: overall / 100,
+            size: 96,
+            stroke: 10,
+            label: '${overall.round()}%',
+            color: good ? AppTheme.success : AppTheme.warning,
+            track: Colors.white,
+          ),
+          const SizedBox(width: 16),
+          Expanded(
+            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Text(tr(context, key),
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800, color: good ? AppTheme.success : AppTheme.warning)),
+              const SizedBox(height: 4),
+              Text('${profile['qp_title']} • NSQF ${profile['nsqf_level']}', style: const TextStyle(color: AppTheme.ink)),
+            ]),
+          ),
         ]),
       ),
-      const SizedBox(height: 10),
+      const SizedBox(height: 6),
       InfoBanner(tr(context, 'disclaimer'), icon: Icons.shield_outlined),
+      SectionTitle(tr(context, 'competency_overview')),
+      AppCard(padding: const EdgeInsets.all(12), child: RadarChart(labels: labels, values: values)),
       for (final n in nos)
         AppCard(
           child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -134,12 +166,23 @@ class _ResultScreenState extends State<ResultScreen> {
           ]),
         ),
       if (gaps.isNotEmpty) ...[
-        const SectionTitle('Areas to improve'),
-        for (final g in gaps) Padding(padding: const EdgeInsets.symmetric(vertical: 3), child: Text('•  $g')),
+        SectionTitle(tr(context, 'areas_to_improve')),
+        AppCard(
+          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            for (final g in gaps)
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 4),
+                child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                  const Icon(Icons.flag_outlined, size: 18, color: AppTheme.warning),
+                  const SizedBox(width: 8),
+                  Expanded(child: Text(g.toString(), style: const TextStyle(height: 1.35))),
+                ]),
+              ),
+          ]),
+        ),
       ],
-      const SizedBox(height: 18),
+      const SizedBox(height: 14),
       FilledButton.icon(icon: const Icon(Icons.picture_as_pdf), label: Text(tr(context, 'download_report')), onPressed: _pdf),
-      const SizedBox(height: 24),
     ]);
   }
 }
