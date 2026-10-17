@@ -58,11 +58,15 @@ Feature availability may depend on the app build, backend configuration, permiss
 
 ## Application Preview
 
-The application includes a visual identity built around worker illustrations and trade-specific artwork.
+KaushalSetu is designed for workers whose skills are built through hands-on experience. The illustration below reflects the communities and traditional trades the application aims to support.
 
-![KaushalSetu worker illustration](mobile/assets/images/hero_workers.png)
+<p align="center">
+  <img src="docs/images/kaushalsetu-workers.png" alt="Illustration of an Indian farmer, potter, and water delivery worker in a village setting" width="100%">
+</p>
 
-Trade illustrations and interface assets are located in `mobile/assets/images/`. Screenshots of the running application can be added here as the final build is validated.
+The application supports skill declarations, qualification-pack mapping, structured assessment tasks, evidence review, and assessor-led decisions.
+
+Trade illustrations and interface assets are maintained in `mobile/assets/images/`. Screenshots of the running application will be added as the final build is validated.
 
 ## System Architecture
 
